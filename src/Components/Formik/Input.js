@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({}));
 
 function Input(props) {
   const classes = useStyles();
-  const { label, name, ...rest } = props;
+  const { label, name, type, ...rest } = props;
   return (
     <Field name={name} {...rest}>
       {(props) => {
@@ -16,9 +16,11 @@ function Input(props) {
           <TextField
             id={name}
             label={label}
+            type={type}
             className={classes.textField}
             fullWidth
             margin="normal"
+            variant="outlined"
             {...field}
             error={meta.touched && !!meta.error}
             helperText={meta.touched && !!meta.error ? meta.error : ''}
