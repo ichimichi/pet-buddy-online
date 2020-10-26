@@ -39,9 +39,14 @@ const AppProvider = ({ children }) => {
       ? localStorage.getItem('logged') === 'true'
       : false
   );
+
+  const serverAddress = 'http://localhost:8089/';
+  const apis = {
+    signin: serverAddress + 'signin',
+  };
   return (
     <ThemeProvider theme={theme}>
-      <Provider value={{ logged, setLogged }}>{children}</Provider>
+      <Provider value={{ logged, setLogged, apis }}>{children}</Provider>
     </ThemeProvider>
   );
 };

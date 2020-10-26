@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SignIn = ({ history }) => {
   const classes = useStyles();
-  const { setLogged } = useAppState();
+  const { setLogged, apis } = useAppState();
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
   const initialValues = {
@@ -61,7 +61,7 @@ const SignIn = ({ history }) => {
   const onSubmit = async (values, onSubmitProps) => {
     console.log(values);
     setIsLoading(true);
-    const url = 'http://localhost:8089/signin';
+    const url = apis.signin;
     const options = {
       method: 'POST',
       headers: {},
@@ -79,8 +79,8 @@ const SignIn = ({ history }) => {
       history.push('/');
     } catch (e) {
       console.error(e);
-      setIsLoading(false);
       setMessage('Invalid E-mail or password combination!');
+      setIsLoading(false);
     }
   };
 
