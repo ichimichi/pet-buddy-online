@@ -101,6 +101,7 @@ const SignIn = ({ history }) => {
                   return (
                     <Form>
                       <div>
+                        <Typography variant="h3">Pet Buddy Online</Typography>
                         <Typography>
                           Welcome, Please Login in order to continue
                         </Typography>
