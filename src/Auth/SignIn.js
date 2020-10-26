@@ -59,7 +59,6 @@ const SignIn = ({ history }) => {
     password: Yup.string().required('password is required'),
   });
   const onSubmit = async (values, onSubmitProps) => {
-    console.log(values);
     setIsLoading(true);
     const url = apis.signin;
     const options = {
@@ -79,8 +78,10 @@ const SignIn = ({ history }) => {
       history.push('/');
     } catch (e) {
       console.error(e);
-      setMessage('Invalid E-mail or password combination!');
-      setIsLoading(false);
+      if (e.response.status === 401) {
+        setMessage('Invalid E-mail or password combination!');
+        setIsLoading(false);
+      }
     }
   };
 
