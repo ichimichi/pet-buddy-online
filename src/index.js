@@ -6,6 +6,7 @@ import AppProvider from './AppProvider/AppProvider';
 import AuthorizedRoute from './Auth/AuthorizedRoute';
 import UnAuthorizedRoute from './Auth/UnAuthorizedRoute';
 import SignIn from './Auth/SignIn';
+import SignUp from './Auth/SignUp';
 import NotFound from './Pages/Errors/NotFound';
 
 ReactDOM.render(
@@ -14,6 +15,7 @@ ReactDOM.render(
       <BrowserRouter>
         <Switch>
           <UnAuthorizedRoute exact path="/signin" component={SignIn} />
+          <UnAuthorizedRoute exact path="/signup" component={SignUp} />
           <AuthorizedRoute exact path="/" component={App} />
           <Route component={NotFound} />
           <Redirect to="/404" />

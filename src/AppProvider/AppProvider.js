@@ -40,9 +40,10 @@ const AppProvider = ({ children }) => {
       : false
   );
 
-  const serverAddress = 'http://localhost:8089/';
+  const serverAddress = 'http://localhost:8089';
   const apis = {
-    signin: serverAddress + 'signin',
+    signin: serverAddress + '/signin',
+    signup: serverAddress + '/signup',
   };
   return (
     <ThemeProvider theme={theme}>

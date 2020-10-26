@@ -45,22 +45,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignIn = ({ history }) => {
+const SignUp = ({ history }) => {
   const classes = useStyles();
   const { setLogged, apis } = useAppState();
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
   const initialValues = {
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
+    passwordConfirmation: '',
   };
   const validationSchema = Yup.object({
-    email: Yup.string().email('Invalid email').required('email is required'),
-    password: Yup.string().required('password is required'),
+    firstName: Yup.string().required('First name is required'),
+    lastName: Yup.string().required('Last name is required'),
+    email: Yup.string()
+      .email('Invalid e-mail adddress')
+      .required('E-mail is required'),
+    password: Yup.string().required('Password is required'),
+    passwordConfirmation: Yup.string()
+      .oneOf([Yup.ref('password'), null], 'Passwords must match')
+      .required('Please enter password again to verify'),
   });
-  const onSubmit = async (values, onSubmitProps) => {
+  const onSubmit = async (
+    { passwordConfirmation, ...values },
+    onSubmitProps
+  ) => {
     setIsLoading(true);
-    const url = apis.signin;
+    const url = apis.signup;
     const options = {
       method: 'POST',
       headers: {},
@@ -78,8 +91,8 @@ const SignIn = ({ history }) => {
       history.push('/');
     } catch (e) {
       console.error(e);
-      if (e.response.status === 401) {
-        setMessage('Invalid E-mail or password combination!');
+      if (e.response.status === 400) {
+        setMessage('User with provided e-mail already exists');
         setIsLoading(false);
       }
     }
@@ -103,12 +116,23 @@ const SignIn = ({ history }) => {
                       <div>
                         <Typography variant="h3">Pet Buddy Online</Typography>
                         <Typography>
-                          Welcome, Please Login in order to continue
+                          Welcome, Please enter the following details in order
+                          to sign up
                         </Typography>
                       </div>
                       <div className="pt-3">
                         <Typography color="error">{message}</Typography>
                       </div>
+                      <FormikControl
+                        control="input"
+                        name="firstName"
+                        label="First Name"
+                      />
+                      <FormikControl
+                        control="input"
+                        name="lastName"
+                        label="Last Name"
+                      />
                       <FormikControl
                         control="input"
                         name="email"
@@ -120,6 +144,12 @@ const SignIn = ({ history }) => {
                         label="Password"
                         type="password"
                       />
+                      <FormikControl
+                        control="input"
+                        name="passwordConfirmation"
+                        label="Verify password"
+                        type="password"
+                      />
                       <div className="pt-3 pb-1">
                         <Button
                           type="submtit"
@@ -128,7 +158,7 @@ const SignIn = ({ history }) => {
                           fullWidth
                           disabled={!formik.isValid || formik.isSubmitting}
                         >
-                          Login
+                          Sign Up
                         </Button>
                       </div>
                       <Divider />
@@ -137,9 +167,9 @@ const SignIn = ({ history }) => {
                           variant="outlined"
                           color="primary"
                           fullWidth
-                          onClick={() => history.push('/signup')}
+                          onClick={() => history.push('/signin')}
                         >
-                          New User? Create new Account
+                          Already have an account? Login
                         </Button>
                       </div>
                     </Form>
@@ -154,4 +184,4 @@ const SignIn = ({ history }) => {
   );
 };
 
-export default SignIn;
+export default SignUp;
