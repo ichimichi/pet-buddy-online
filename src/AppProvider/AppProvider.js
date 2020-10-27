@@ -42,6 +42,7 @@ const AppProvider = ({ children }) => {
   const apis = {
     signin: serverAddress + '/signin',
     signup: serverAddress + '/signup',
+    item: serverAddress + '/api/item',
   };
   return (
     <ThemeProvider theme={theme}>

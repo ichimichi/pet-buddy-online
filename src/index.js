@@ -16,7 +16,7 @@ ReactDOM.render(
         <Switch>
           <UnAuthorizedRoute exact path="/signin" component={SignIn} />
           <UnAuthorizedRoute exact path="/signup" component={SignUp} />
-          <AuthorizedRoute exact path="/" component={App} />
+          <AuthorizedRoute path="/" component={App} />
           <Route component={NotFound} />
           <Redirect to="/404" />
         </Switch>

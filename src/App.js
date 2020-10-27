@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useAppState } from './AppProvider/AppProvider';
 import { Button, LinearProgress, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { Route, Switch } from 'react-router-dom';
+import ItemRegistration from './Pages/Items/ItemRegistration';
 
 const useStyles = makeStyles((theme) => ({}));
 
@@ -26,6 +28,20 @@ const App = ({ history }) => {
         <Button variant="outlined" color="secondary" onClick={logout}>
           Logout
         </Button>
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={() => history.push('/itemReg')}
+        >
+          Item Registration
+        </Button>
+        <Switch>
+          <Route exact path="/itemReg">
+            {(props) => {
+              return <ItemRegistration {...props} />;
+            }}
+          </Route>
+        </Switch>
       </div>
     </>
   );
