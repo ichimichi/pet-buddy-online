@@ -35,9 +35,7 @@ const theme = createMuiTheme({
 
 const AppProvider = ({ children }) => {
   const [logged, setLogged] = useState(
-    localStorage.getItem('logged')
-      ? localStorage.getItem('logged') === 'true'
-      : false
+    localStorage.getItem('token') ? true : false
   );
 
   const serverAddress = 'http://localhost:8089';

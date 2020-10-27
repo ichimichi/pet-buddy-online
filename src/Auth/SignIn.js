@@ -72,7 +72,6 @@ const SignIn = ({ history }) => {
     try {
       const { data } = await axios(options);
       console.log(data.token);
-      localStorage.setItem('logged', true);
       localStorage.setItem('token', data.token);
       setLogged(true);
       setIsLoading(false);
