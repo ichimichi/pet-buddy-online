@@ -64,7 +64,9 @@ const SignUp = ({ history }) => {
     email: Yup.string()
       .email('Invalid e-mail adddress')
       .required('E-mail is required'),
-    password: Yup.string().required('Password is required'),
+    password: Yup.string()
+      .min(8, 'Password too short')
+      .required('Password is required'),
     passwordConfirmation: Yup.string()
       .oneOf([Yup.ref('password'), null], 'Passwords must match')
       .required('Please enter password again to verify'),
