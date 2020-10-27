@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: theme.palette.primary.main,
+    backgroundImage: `url(${process.env.PUBLIC_URL + '/static/bg.svg'})`,
   },
   content: {
     padding: `40px ${theme.spacing(1)}px`,
