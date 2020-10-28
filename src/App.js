@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAppState } from './AppProvider/AppProvider';
+import { useAppState } from './Provider/AppProvider';
 import { Button, LinearProgress, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Route, Switch } from 'react-router-dom';

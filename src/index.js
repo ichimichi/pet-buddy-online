@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import App from './App';
-import AppProvider from './AppProvider/AppProvider';
+import AppProvider from './Provider/AppProvider';
 import AuthorizedRoute from './Auth/AuthorizedRoute';
 import UnAuthorizedRoute from './Auth/UnAuthorizedRoute';
 import SignIn from './Auth/SignIn';

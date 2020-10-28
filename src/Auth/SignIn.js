@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAppState } from '../AppProvider/AppProvider';
+import { useAppState } from '../Provider/AppProvider';
 import classNames from 'classnames';
 import {
   Button,

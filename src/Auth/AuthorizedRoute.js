@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import { useAppState } from '../AppProvider/AppProvider';
+import { useAppState } from '../Provider/AppProvider';
 import { LinearProgress } from '@material-ui/core';
 
 const AuthorizedRoute = ({ component, ...rest }) => {
