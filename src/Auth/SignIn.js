@@ -71,8 +71,10 @@ const SignIn = ({ history }) => {
 
     try {
       const { data } = await axios(options);
-      console.log(data.accessToken);
-      setAccessToken(data.accessToken);
+      setAccessToken({
+        token: data.accessToken,
+        expiry: data.accessTokenExp,
+      });
       setLogged(true);
       setIsLoading(false);
       history.push('/');

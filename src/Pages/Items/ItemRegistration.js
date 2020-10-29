@@ -63,7 +63,7 @@ const ItemRegistration = ({ history }) => {
     axios.interceptors.request.use(
       (req) => {
         if (accessToken) {
-          req.headers.authorization = `Bearer ${accessToken}`;
+          req.headers.authorization = `Bearer ${accessToken.token}`;
         }
         return req;
       },
