@@ -9,13 +9,12 @@ const useStyles = makeStyles((theme) => ({}));
 
 const App = ({ history }) => {
   const classes = useStyles();
-  const { setLogged } = useAppState();
+  const { setLogged, setAccessToken } = useAppState();
   const [isLoading, setIsLoading] = useState(false);
   const logout = () => {
     setIsLoading(true);
+    setAccessToken(null);
     setLogged(false);
-    localStorage.setItem('logged', false);
-    localStorage.removeItem('token');
     history.push('/');
   };
   return (

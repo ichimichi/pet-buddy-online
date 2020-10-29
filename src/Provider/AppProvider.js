@@ -34,9 +34,8 @@ const theme = createMuiTheme({
 });
 
 const AppProvider = ({ children }) => {
-  const [logged, setLogged] = useState(
-    localStorage.getItem('token') ? true : false
-  );
+  const [logged, setLogged] = useState(false);
+  const [accessToken, setAccessToken] = useState(null);
 
   const serverAddress = 'http://localhost:8089';
   const apis = {
@@ -46,7 +45,11 @@ const AppProvider = ({ children }) => {
   };
   return (
     <ThemeProvider theme={theme}>
-      <Provider value={{ logged, setLogged, apis }}>{children}</Provider>
+      <Provider
+        value={{ logged, setLogged, accessToken, setAccessToken, apis }}
+      >
+        {children}
+      </Provider>
     </ThemeProvider>
   );
 };

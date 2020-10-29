@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SignUp = ({ history }) => {
   const classes = useStyles();
-  const { setLogged, apis } = useAppState();
+  const { setLogged, setAccessToken, apis } = useAppState();
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
   const initialValues = {
@@ -86,8 +86,8 @@ const SignUp = ({ history }) => {
 
     try {
       const { data } = await axios(options);
-      console.log(data.token);
-      localStorage.setItem('token', data.token);
+      console.log(data.accessToken);
+      setAccessToken(data.accessToken);
       setLogged(true);
       setIsLoading(false);
       history.push('/');

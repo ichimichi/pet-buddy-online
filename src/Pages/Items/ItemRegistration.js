@@ -15,19 +15,6 @@ import FormikControl from './../../Components/Formik/FormikControl';
 import * as Yup from 'yup';
 import axios from 'axios';
 
-axios.interceptors.request.use(
-  (req) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      req.headers.authorization = `Bearer ${token}`;
-    }
-    return req;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-
 const useStyles = makeStyles((theme) => ({
   background: {
     position: 'relative',
@@ -59,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ItemRegistration = ({ history }) => {
   const classes = useStyles();
-  const { apis } = useAppState();
+  const { accessToken, apis } = useAppState();
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
   const initialValues = {
@@ -73,6 +60,17 @@ const ItemRegistration = ({ history }) => {
   const onSubmit = async (values, onSubmitProps) => {
     setIsLoading(true);
     const url = apis.item;
+    axios.interceptors.request.use(
+      (req) => {
+        if (accessToken) {
+          req.headers.authorization = `Bearer ${accessToken}`;
+        }
+        return req;
+      },
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
     const options = {
       method: 'POST',
       headers: {},
