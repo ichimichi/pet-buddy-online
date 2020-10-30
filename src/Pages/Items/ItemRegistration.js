@@ -9,44 +9,15 @@ import {
   LinearProgress,
   Typography,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import { Formik, Form } from 'formik';
 import FormikControl from './../../Components/Formik/FormikControl';
 import * as Yup from 'yup';
 import axios from 'axios';
-
-const useStyles = makeStyles((theme) => ({
-  background: {
-    position: 'relative',
-    zIndex: 4000,
-    minHeight: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  content: {
-    padding: `40px ${theme.spacing(1)}px`,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: '1 0 auto',
-    flexDirection: 'column',
-    minHeight: '100%',
-    textAlign: 'center',
-  },
-  wrapper: {
-    flex: 'none',
-    maxWidth: '400px',
-    width: '100%',
-    margin: '0 auto',
-  },
-  root: {
-    minWidth: 275,
-  },
-}));
+import { useStyles } from './useStyles';
 
 const ItemRegistration = ({ history }) => {
   const classes = useStyles();
-  const { accessToken, apis } = useAppState();
+  const { apis } = useAppState();
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
   const initialValues = {
