@@ -1,18 +1,11 @@
 import React from 'react';
-import { Redirect, Route } from 'react-router-dom';
 import { useAppState } from '../Provider/AppProvider';
-import { LinearProgress } from '@material-ui/core';
+import { Redirect, Route } from 'react-router-dom';
 
-const AuthorizedRoute = ({ component, ...rest }) => {
+export const AuthorizedRoute = ({ component, ...rest }) => {
   const { logged } = useAppState();
 
-  if (logged === null) {
-    return <LinearProgress />;
-  } else if (logged === false) {
-    return <Redirect to="/signin" push />;
-  }
-
+  if (logged === null) return <div>Loading...</div>;
+  if (!logged) return <Redirect push to="/signin" />;
   return <Route component={component} {...rest} />;
 };
-
-export default AuthorizedRoute;

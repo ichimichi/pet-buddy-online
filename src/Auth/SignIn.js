@@ -9,46 +9,15 @@ import {
   LinearProgress,
   Typography,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { useStyles } from './useStyles';
 import { Formik, Form } from 'formik';
 import FormikControl from '../Components/Formik/FormikControl';
 import * as Yup from 'yup';
 import axios from 'axios';
 
-const useStyles = makeStyles((theme) => ({
-  background: {
-    position: 'relative',
-    zIndex: 4000,
-    minHeight: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-    backgroundColor: theme.palette.primary.main,
-    backgroundImage: `url(${process.env.PUBLIC_URL + '/static/bg.svg'})`,
-  },
-  content: {
-    padding: `40px ${theme.spacing(1)}px`,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: '1 0 auto',
-    flexDirection: 'column',
-    minHeight: '100%',
-    textAlign: 'center',
-  },
-  wrapper: {
-    flex: 'none',
-    maxWidth: '400px',
-    width: '100%',
-    margin: '0 auto',
-  },
-  root: {
-    minWidth: 275,
-  },
-}));
-
-const SignIn = ({ history }) => {
+export const SignIn = ({ history }) => {
   const classes = useStyles();
-  const { setLogged, setAccessToken, apis } = useAppState();
+  const { setLogged, apis } = useAppState();
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
   const initialValues = {
@@ -61,23 +30,17 @@ const SignIn = ({ history }) => {
   });
   const onSubmit = async (values, onSubmitProps) => {
     setIsLoading(true);
-    const url = apis.signin;
     const options = {
       method: 'POST',
       headers: {},
       withCredentials: true,
       data: values,
-      url,
+      url: apis.signin,
     };
 
     try {
-      const { data } = await axios(options);
-      setAccessToken({
-        token: data.accessToken,
-        expiry: data.accessTokenExp,
-      });
+      await axios(options);
       setLogged(true);
-      setIsLoading(false);
       history.push('/');
     } catch (e) {
       console.error(e);
@@ -156,5 +119,3 @@ const SignIn = ({ history }) => {
     </div>
   );
 };
-
-export default SignIn;
