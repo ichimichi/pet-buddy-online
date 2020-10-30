@@ -80,6 +80,7 @@ const SignUp = ({ history }) => {
     const options = {
       method: 'POST',
       headers: {},
+      withCredentials: true,
       data: values,
       url,
     };

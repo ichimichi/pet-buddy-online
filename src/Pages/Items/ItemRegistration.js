@@ -60,21 +60,12 @@ const ItemRegistration = ({ history }) => {
   const onSubmit = async (values, onSubmitProps) => {
     setIsLoading(true);
     const url = apis.item;
-    axios.interceptors.request.use(
-      (req) => {
-        if (accessToken) {
-          req.headers.authorization = `Bearer ${accessToken.token}`;
-        }
-        return req;
-      },
-      (error) => {
-        return Promise.reject(error);
-      }
-    );
+
     const options = {
       method: 'POST',
       headers: {},
       data: values,
+      withCredentials: true,
       url,
     };
 

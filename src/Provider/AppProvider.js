@@ -37,7 +37,7 @@ const AppProvider = ({ children }) => {
   const [logged, setLogged] = useState(false);
   const [accessToken, setAccessToken] = useState(null);
 
-  const serverAddress = 'http://localhost:8089';
+  const serverAddress = 'https://127.0.0.1:8089';
   const apis = {
     signin: serverAddress + '/signin',
     signup: serverAddress + '/signup',
