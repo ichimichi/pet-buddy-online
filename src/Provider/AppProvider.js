@@ -7,16 +7,6 @@ const Context = createContext();
 const { Provider } = Context;
 
 export const AppProvider = ({ children }) => {
-  const [logged, setLogged] = useState(
-    new Cookies().get('payload') ? true : false
-  );
-
-  useEffect(() => {
-    if (!logged) {
-      new Cookies().remove('payload');
-    }
-  }, [logged]);
-
   const serverAddress = 'https://127.0.0.1:8089';
   const apis = {
     signin: serverAddress + '/signin',
@@ -25,7 +15,7 @@ export const AppProvider = ({ children }) => {
   };
   return (
     <ThemeProvider theme={appTheme}>
-      <Provider value={{ logged, setLogged, apis }}>{children}</Provider>
+      <Provider value={{ apis }}>{children}</Provider>
     </ThemeProvider>
   );
 };

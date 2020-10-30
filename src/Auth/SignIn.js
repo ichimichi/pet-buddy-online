@@ -17,7 +17,7 @@ import axios from 'axios';
 
 export const SignIn = ({ history }) => {
   const classes = useStyles();
-  const { setLogged, apis } = useAppState();
+  const { apis } = useAppState();
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
   const initialValues = {
@@ -40,7 +40,6 @@ export const SignIn = ({ history }) => {
 
     try {
       await axios(options);
-      setLogged(true);
       history.push('/');
     } catch (e) {
       console.error(e);
