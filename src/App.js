@@ -15,7 +15,10 @@ export const App = ({ history }) => {
 
   const logout = () => {
     setIsLoading(true);
-    new Cookies().remove('payload');
+    const cookies = new Cookies();
+    cookies.remove('payload');
+    cookies.remove('XSRF-TOKEN');
+    cookies.remove('_csrf');
     history.push('/signin');
   };
 

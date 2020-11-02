@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { useAppState } from '../../Provider/AppProvider';
 import classNames from 'classnames';
 import {
+  Box,
   Button,
   Card,
   CardContent,
   Divider,
+  Grid,
   LinearProgress,
   Typography,
 } from '@material-ui/core';
@@ -30,14 +32,13 @@ const ItemRegistration = ({ history }) => {
   });
   const onSubmit = async (values, onSubmitProps) => {
     setIsLoading(true);
-    const url = apis.item;
 
     const options = {
       method: 'POST',
       headers: {},
-      data: values,
+      data: { ...values },
       withCredentials: true,
-      url,
+      url: apis.item,
     };
 
     try {
@@ -54,62 +55,76 @@ const ItemRegistration = ({ history }) => {
   };
 
   return (
-    <div className={classes.background}>
+    <>
       {isLoading && <LinearProgress />}
-      <div className={classNames(classes.content)}>
-        <div className={classNames(classes.wrapper)}>
-          <Card className={classes.root}>
-            <CardContent>
-              <Formik
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-                onSubmit={onSubmit}
-              >
-                {(formik) => {
-                  return (
-                    <Form>
-                      <div>
-                        <Typography variant="h3">Item Registration</Typography>
-                      </div>
-                      <div className="pt-3">
-                        <Typography color="error">{message}</Typography>
-                      </div>
-                      <FormikControl
-                        control="input"
-                        name="name"
-                        label="Item Name"
-                      />
-                      <FormikControl
-                        control="input"
-                        name="description"
-                        label="Description"
-                      />
-                      <div className="pt-3 pb-1">
-                        <Button
-                          type="submtit"
-                          variant="contained"
-                          color="primary"
-                          fullWidth
-                          disabled={!formik.isValid || formik.isSubmitting}
-                        >
-                          Register Item
-                        </Button>
-                      </div>
-                      <Divider />
-                      <div className="pt-1">
-                        <Button variant="outlined" color="primary" fullWidth>
-                          View Items
-                        </Button>
-                      </div>
-                    </Form>
-                  );
-                }}
-              </Formik>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    </div>
+      <Grid
+        className={classes.background}
+        container
+        direction="column"
+        justify="center"
+        spacing={0}
+      >
+        <Grid item container direction="row" justify="center">
+          <Grid item l={4} md={5} sm={8} xs={11}>
+            <Card>
+              <CardContent className={classes.content}>
+                <Formik
+                  initialValues={initialValues}
+                  validationSchema={validationSchema}
+                  onSubmit={onSubmit}
+                >
+                  {(formik) => {
+                    return (
+                      <Form>
+                        <Box my={3}>
+                          <Typography variant="h3">
+                            Item Registration
+                          </Typography>
+                        </Box>
+                        <div className="pt-3">
+                          <Typography color="error">{message}</Typography>
+                        </div>
+                        <FormikControl
+                          control="input"
+                          name="name"
+                          label="Item Name"
+                        />
+                        <FormikControl
+                          control="input"
+                          name="description"
+                          label="Description"
+                        />
+                        <Box my={4}>
+                          <Button
+                            type="submtit"
+                            variant="contained"
+                            color="secondary"
+                            fullWidth
+                            disabled={!formik.isValid || formik.isSubmitting}
+                          >
+                            Register Item
+                          </Button>
+                        </Box>
+                        <Divider />
+                        <Box my={4}>
+                          <Button
+                            variant="outlined"
+                            color="secondary"
+                            fullWidth
+                          >
+                            View Items
+                          </Button>
+                        </Box>
+                      </Form>
+                    );
+                  }}
+                </Formik>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      </Grid>
+    </>
   );
 };
 
