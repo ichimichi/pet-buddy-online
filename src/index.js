@@ -8,9 +8,11 @@ import { UnAuthorizedRoute } from './Auth/UnAuthorizedRoute';
 import { SignIn } from './Auth/SignIn';
 import { SignUp } from './Auth/SignUp';
 import { NotFound } from './Pages/Errors/NotFound';
+import { CssBaseline } from '@material-ui/core';
 
 ReactDOM.render(
   <React.StrictMode>
+    <CssBaseline />
     <AppProvider>
       <BrowserRouter>
         <Switch>
