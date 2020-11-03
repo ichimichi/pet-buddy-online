@@ -65,7 +65,7 @@ const ItemRegistration = ({ history }) => {
         spacing={0}
       >
         <Grid item container direction="row" justify="center">
-          <Grid item l={4} md={5} sm={8} xs={11}>
+          <Grid item lg={3} md={6} sm={11} xs={11}>
             <Card>
               <CardContent className={classes.content}>
                 <Formik
