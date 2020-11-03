@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import ItemRegistration from './Pages/Items/ItemRegistration';
 import Cookies from 'universal-cookie';
+import { NavBar } from './Components/NavBar/NavBar';
 
 const useStyles = makeStyles((theme) => ({}));
 
@@ -26,16 +27,7 @@ export const App = ({ history }) => {
     <>
       {isLoading && <LinearProgress />}
       <div>
-        <Button variant="outlined" color="secondary" onClick={logout}>
-          Logout
-        </Button>
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={() => history.push('/itemReg')}
-        >
-          Item Registration
-        </Button>
+        <NavBar />
         <Switch>
           <Route exact path="/">
             {(props) => {
