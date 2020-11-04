@@ -37,7 +37,7 @@ const ItemRegistration = ({ history }) => {
 
     const options = {
       method: 'POST',
-      headers: {},
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       data: { ...values },
       withCredentials: true,
       url: apis.item,

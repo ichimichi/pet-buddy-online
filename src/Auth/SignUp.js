@@ -51,7 +51,7 @@ export const SignUp = ({ history }) => {
     setIsLoading(true);
     const options = {
       method: 'POST',
-      headers: {},
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       withCredentials: true,
       data: { ...values },
       url: apis.signup,
