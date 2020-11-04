@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useAppState } from '../../Provider/AppProvider';
-import classNames from 'classnames';
 import {
   Box,
   Button,
@@ -11,25 +10,28 @@ import {
   LinearProgress,
   Typography,
 } from '@material-ui/core';
-import { Formik, Form } from 'formik';
-import FormikControl from './../../Components/Formik/FormikControl';
+import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useStyles } from './useStyles';
+import { TextField } from 'formik-material-ui';
 
 const ItemRegistration = ({ history }) => {
   const classes = useStyles();
   const { apis } = useAppState();
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
+
   const initialValues = {
     name: '',
     description: '',
   };
+
   const validationSchema = Yup.object({
     name: Yup.string().required('Item name is required'),
     description: Yup.string().required('Description is required'),
   });
+
   const onSubmit = async (values, onSubmitProps) => {
     setIsLoading(true);
 
@@ -84,15 +86,23 @@ const ItemRegistration = ({ history }) => {
                         <div className="pt-3">
                           <Typography color="error">{message}</Typography>
                         </div>
-                        <FormikControl
-                          control="input"
+                        <Field
+                          component={TextField}
                           name="name"
+                          type="text"
                           label="Item Name"
+                          margin="normal"
+                          variant="outlined"
+                          fullWidth
                         />
-                        <FormikControl
-                          control="input"
+                        <Field
+                          component={TextField}
                           name="description"
+                          type="text"
                           label="Description"
+                          margin="normal"
+                          variant="outlined"
+                          fullWidth
                         />
                         <Box my={4}>
                           <Button

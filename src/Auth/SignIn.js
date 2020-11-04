@@ -11,8 +11,8 @@ import {
   Typography,
 } from '@material-ui/core';
 import { useStyles } from './useStyles';
-import { Formik, Form } from 'formik';
-import FormikControl from '../Components/Formik/FormikControl';
+import { TextField } from 'formik-material-ui';
+import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 
@@ -21,14 +21,17 @@ export const SignIn = ({ history }) => {
   const { apis } = useAppState();
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
+
   const initialValues = {
     email: '',
     password: '',
   };
+
   const validationSchema = Yup.object({
     email: Yup.string().email('Invalid email').required('email is required'),
     password: Yup.string().required('password is required'),
   });
+
   const onSubmit = async (values, onSubmitProps) => {
     setIsLoading(true);
 
@@ -51,6 +54,7 @@ export const SignIn = ({ history }) => {
       }
     }
   };
+
   useEffect(() => {
     const getCsrf = async () => {
       const options = {
@@ -94,16 +98,23 @@ export const SignIn = ({ history }) => {
                           Welcome, Please Login in order to continue
                         </Typography>
                         <Typography color="error">{message}</Typography>
-                        <FormikControl
-                          control="input"
+                        <Field
+                          component={TextField}
                           name="email"
+                          type="email"
                           label="E-mail"
+                          margin="normal"
+                          variant="outlined"
+                          fullWidth
                         />
-                        <FormikControl
-                          control="input"
+                        <Field
+                          component={TextField}
                           name="password"
-                          label="Password"
                           type="password"
+                          label="Password"
+                          margin="normal"
+                          variant="outlined"
+                          fullWidth
                         />
                         <Box my={2}>
                           <Button

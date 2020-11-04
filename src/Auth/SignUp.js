@@ -11,16 +11,17 @@ import {
   Typography,
 } from '@material-ui/core';
 import { useStyles } from './useStyles';
-import { Formik, Form } from 'formik';
-import FormikControl from '../Components/Formik/FormikControl';
+import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { TextField } from 'formik-material-ui';
 
 export const SignUp = ({ history }) => {
   const classes = useStyles();
   const { apis } = useAppState();
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
+
   const initialValues = {
     firstName: '',
     lastName: '',
@@ -28,6 +29,7 @@ export const SignUp = ({ history }) => {
     password: '',
     passwordConfirmation: '',
   };
+
   const validationSchema = Yup.object({
     firstName: Yup.string().required('First name is required'),
     lastName: Yup.string().required('Last name is required'),
@@ -41,6 +43,7 @@ export const SignUp = ({ history }) => {
       .oneOf([Yup.ref('password'), null], 'Passwords must match')
       .required('Please enter password again to verify'),
   });
+
   const onSubmit = async (
     { passwordConfirmation, ...values },
     onSubmitProps
@@ -96,32 +99,50 @@ export const SignUp = ({ history }) => {
                           to sign up
                         </Typography>
                         <Typography color="error">{message}</Typography>
-                        <FormikControl
-                          control="input"
+                        <Field
+                          component={TextField}
                           name="firstName"
+                          type="text"
                           label="First Name"
+                          margin="normal"
+                          variant="outlined"
+                          fullWidth
                         />
-                        <FormikControl
-                          control="input"
+                        <Field
+                          component={TextField}
                           name="lastName"
+                          type="text"
                           label="Last Name"
+                          margin="normal"
+                          variant="outlined"
+                          fullWidth
                         />
-                        <FormikControl
-                          control="input"
+                        <Field
+                          component={TextField}
                           name="email"
+                          type="email"
                           label="E-mail"
+                          margin="normal"
+                          variant="outlined"
+                          fullWidth
                         />
-                        <FormikControl
-                          control="input"
+                        <Field
+                          component={TextField}
                           name="password"
+                          type="password"
                           label="Password"
-                          type="password"
+                          margin="normal"
+                          variant="outlined"
+                          fullWidth
                         />
-                        <FormikControl
-                          control="input"
+                        <Field
+                          component={TextField}
                           name="passwordConfirmation"
-                          label="Verify password"
                           type="password"
+                          label="Verify password"
+                          margin="normal"
+                          variant="outlined"
+                          fullWidth
                         />
                         <Box my={2}>
                           <Button
