@@ -3,7 +3,6 @@ import {
   Menu as MenuIcon,
   ExitToApp as ExitToAppIcon,
 } from '@material-ui/icons';
-import { tr } from 'date-fns/locale';
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { logout } from '../../Provider/AuthProvider';

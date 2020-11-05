@@ -24,6 +24,7 @@ const SideBar = ({ opened, toggleDrawer, history }) => {
         <ListItem
           button
           onClick={() => {
+            toggleDrawer();
             history.push('/');
           }}
         >
@@ -35,6 +36,7 @@ const SideBar = ({ opened, toggleDrawer, history }) => {
         <ListItem
           button
           onClick={() => {
+            toggleDrawer();
             history.push('/itemReg');
           }}
         >
