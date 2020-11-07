@@ -4,6 +4,6 @@ import Cookies from 'universal-cookie';
 
 export const AuthorizedRoute = ({ component, ...rest }) => {
   const payload = new Cookies().get('payload');
-  if (!payload) return <Redirect push to="/signin" />;
+  if (!payload) return <Redirect push to="/auth" />;
   return <Route component={component} {...rest} />;
 };

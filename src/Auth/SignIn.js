@@ -7,7 +7,7 @@ import {
   CardContent,
   Divider,
   Grid,
-  LinearProgress,
+  Paper,
   Typography,
 } from '@material-ui/core';
 import { useStyles } from './useStyles';
@@ -16,10 +16,9 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 
-export const SignIn = ({ history }) => {
+export const SignIn = ({ history, toggleLoading }) => {
   const classes = useStyles();
   const { apis } = useAppState();
-  const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
 
   const initialValues = {
@@ -33,7 +32,7 @@ export const SignIn = ({ history }) => {
   });
 
   const onSubmit = async (values, onSubmitProps) => {
-    setIsLoading(true);
+    toggleLoading();
 
     const options = {
       method: 'POST',
@@ -50,9 +49,9 @@ export const SignIn = ({ history }) => {
       console.error(e);
       if (e.response.status === 401) {
         setMessage('Invalid E-mail or password combination!');
-        setIsLoading(false);
       }
     }
+    toggleLoading();
   };
 
   useEffect(() => {
@@ -70,83 +69,81 @@ export const SignIn = ({ history }) => {
   }, []);
 
   return (
-    <>
-      {isLoading && <LinearProgress />}
-      <Grid
-        className={classes.background}
-        container
-        direction="column"
-        justify="center"
-        spacing={0}
-      >
-        <Grid item container direction="row" justify="center">
-          <Grid item lg={3} md={6} sm={11} xs={11}>
-            <Card>
-              <CardContent className={classes.content}>
-                <Formik
-                  initialValues={initialValues}
-                  validationSchema={validationSchema}
-                  onSubmit={onSubmit}
-                >
-                  {(formik) => {
-                    return (
-                      <Form>
-                        <Box my={4}>
-                          <Typography variant="h3">Pet Buddy Online</Typography>
-                        </Box>
-                        <Typography>
-                          Welcome, Please Login in order to continue
-                        </Typography>
-                        <Typography color="error">{message}</Typography>
-                        <Field
-                          component={TextField}
-                          name="email"
-                          type="email"
-                          label="E-mail"
-                          margin="normal"
-                          variant="outlined"
+    <Grid
+      className={classes.background}
+      container
+      direction="column"
+      justify="center"
+      alignItems="center"
+      spacing={0}
+    >
+      <Grid item lg={3} md={6} sm={11} xs={11}>
+        <Paper>
+          <Card>
+            <CardContent className={classes.content}>
+              <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={onSubmit}
+              >
+                {(formik) => {
+                  return (
+                    <Form>
+                      <Box my={4}>
+                        <Typography variant="h3">Pet Buddy Online</Typography>
+                      </Box>
+                      <Typography>
+                        Welcome, Please Login in order to continue
+                      </Typography>
+                      <Typography color="error">{message}</Typography>
+                      <Field
+                        component={TextField}
+                        name="email"
+                        type="email"
+                        label="E-mail"
+                        margin="normal"
+                        variant="outlined"
+                        fullWidth
+                      />
+                      <Field
+                        component={TextField}
+                        name="password"
+                        type="password"
+                        label="Password"
+                        margin="normal"
+                        variant="outlined"
+                        fullWidth
+                      />
+                      <Box my={2}>
+                        <Button
+                          type="submtit"
+                          variant="contained"
+                          color="primary"
                           fullWidth
-                        />
-                        <Field
-                          component={TextField}
-                          name="password"
-                          type="password"
-                          label="Password"
-                          margin="normal"
+                          disabled={!formik.isValid || formik.isSubmitting}
+                        >
+                          Login
+                        </Button>
+                      </Box>
+                      <Divider />
+                      <Box my={2}>
+                        <Button
                           variant="outlined"
+                          color="primary"
                           fullWidth
-                        />
-                        <Box my={2}>
-                          <Button
-                            type="submtit"
-                            variant="contained"
-                            color="primary"
-                            fullWidth
-                            disabled={!formik.isValid || formik.isSubmitting}
-                          >
-                            Login
-                          </Button>
-                        </Box>
-                        <Divider />
-                        <Box my={2}>
-                          <Button
-                            variant="outlined"
-                            color="primary"
-                            fullWidth
-                            onClick={() => history.push('/signup')}
-                          >
-                            New User? Create new Account
-                          </Button>
-                        </Box>
-                      </Form>
-                    );
-                  }}
-                </Formik>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
+                          onClick={() => history.push('/auth/signup')}
+                        >
+                          New User? Create new Account
+                        </Button>
+                      </Box>
+                    </Form>
+                  );
+                }}
+              </Formik>
+            </CardContent>
+          </Card>
+        </Paper>
       </Grid>
-    </>
+    </Grid>
   );
 };

@@ -34,7 +34,7 @@ export const NavBar = ({ history }) => {
             color="inherit"
             onClick={() => {
               logout();
-              history.push('/signin');
+              history.push('/auth');
             }}
           >
             <ExitToAppIcon />

@@ -8,7 +8,8 @@ import { UnAuthorizedRoute } from './Auth/UnAuthorizedRoute';
 import { SignIn } from './Auth/SignIn';
 import { SignUp } from './Auth/SignUp';
 import { NotFound } from './Pages/Errors/NotFound';
-import { CssBaseline } from '@material-ui/core';
+import { CssBaseline, LinearProgress } from '@material-ui/core';
+import { Auth } from './Auth/Auth';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -17,8 +18,7 @@ ReactDOM.render(
       <BrowserRouter>
         <Switch>
           <Route exact path="/404" component={NotFound} />
-          <UnAuthorizedRoute exact path="/signin" component={SignIn} />
-          <UnAuthorizedRoute exact path="/signup" component={SignUp} />
+          <UnAuthorizedRoute path="/auth" component={Auth} />
           <AuthorizedRoute path="/" component={App} />
           <Redirect to="/" />
         </Switch>

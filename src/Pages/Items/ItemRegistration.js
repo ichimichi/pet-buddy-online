@@ -5,9 +5,8 @@ import {
   Button,
   Card,
   CardContent,
-  Divider,
   Grid,
-  LinearProgress,
+  Paper,
   Typography,
 } from '@material-ui/core';
 import { Formik, Form, Field } from 'formik';
@@ -16,10 +15,9 @@ import axios from 'axios';
 import { useStyles } from './useStyles';
 import { TextField } from 'formik-material-ui';
 
-const ItemRegistration = ({ history }) => {
+export const ItemRegistration = ({ history, toggleLoading }) => {
   const classes = useStyles();
   const { apis } = useAppState();
-  const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
 
   const initialValues = {
@@ -33,7 +31,7 @@ const ItemRegistration = ({ history }) => {
   });
 
   const onSubmit = async (values, onSubmitProps) => {
-    setIsLoading(true);
+    toggleLoading();
 
     const options = {
       method: 'POST',
@@ -46,28 +44,27 @@ const ItemRegistration = ({ history }) => {
     try {
       const { data } = await axios(options);
       console.log(data);
-      setIsLoading(false);
     } catch (e) {
       console.error(e);
       if (e.response.status === 401) {
         setMessage('Unauthorized');
-        setIsLoading(false);
       }
     }
+    toggleLoading();
   };
 
   return (
-    <>
-      {isLoading && <LinearProgress />}
-      <Grid
-        className={classes.background}
-        container
-        direction="column"
-        justify="center"
-        spacing={0}
-      >
-        <Grid item container direction="row" justify="center">
-          <Grid item lg={3} md={6} sm={11} xs={11}>
+    <Grid
+      className={classes.background}
+      container
+      direction="column"
+      justify="center"
+      alignItems="center"
+      spacing={0}
+    >
+      <Grid item lg={3} md={6} sm={11} xs={11}>
+        <Box my={12}>
+          <Paper elevation={12}>
             <Card>
               <CardContent className={classes.content}>
                 <Formik
@@ -115,27 +112,15 @@ const ItemRegistration = ({ history }) => {
                             Register Item
                           </Button>
                         </Box>
-                        <Divider />
-                        <Box my={4}>
-                          <Button
-                            variant="outlined"
-                            color="secondary"
-                            fullWidth
-                          >
-                            View Items
-                          </Button>
-                        </Box>
                       </Form>
                     );
                   }}
                 </Formik>
               </CardContent>
             </Card>
-          </Grid>
-        </Grid>
+          </Paper>
+        </Box>
       </Grid>
-    </>
+    </Grid>
   );
 };
-
-export default ItemRegistration;
