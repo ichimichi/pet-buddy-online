@@ -57,6 +57,7 @@ export const SignUp = ({ history, toggleLoading }) => {
 
     try {
       await axios(options);
+      toggleLoading();
       history.push('/');
     } catch (e) {
       console.error(e);
@@ -88,11 +89,13 @@ export const SignUp = ({ history, toggleLoading }) => {
                 return (
                   <Form>
                     <Box my={4}>
-                      <Typography variant="h3">Pet Buddy Online</Typography>
+                      <Typography variant="h3">
+                        Pet Buddy Online
+                      </Typography>
                     </Box>
                     <Typography>
-                      Welcome, Please enter the following details in order to
-                      sign up
+                      Welcome, Please enter the following details in
+                      order to sign up
                     </Typography>
                     <Typography color="error">{message}</Typography>
                     <Field
@@ -146,7 +149,9 @@ export const SignUp = ({ history, toggleLoading }) => {
                         variant="contained"
                         color="primary"
                         fullWidth
-                        disabled={!formik.isValid || formik.isSubmitting}
+                        disabled={
+                          !formik.isValid || formik.isSubmitting
+                        }
                       >
                         Sign Up
                       </Button>

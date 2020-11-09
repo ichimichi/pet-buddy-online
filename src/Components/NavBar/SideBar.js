@@ -37,13 +37,25 @@ const SideBar = ({ opened, toggleDrawer, history }) => {
           button
           onClick={() => {
             toggleDrawer();
-            history.push('/itemReg');
+            history.push('/item/add');
           }}
         >
           <ListItemIcon>
             <AddBoxIcon />
           </ListItemIcon>
           <Typography>Item Registration</Typography>
+        </ListItem>
+        <ListItem
+          button
+          onClick={() => {
+            toggleDrawer();
+            history.push('/item/list');
+          }}
+        >
+          <ListItemIcon>
+            <AddBoxIcon />
+          </ListItemIcon>
+          <Typography>Item List</Typography>
         </ListItem>
       </List>
     </Drawer>

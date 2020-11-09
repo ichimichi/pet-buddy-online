@@ -9,4 +9,11 @@ export const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     textAlign: 'center',
   },
+  root: {},
+  description: {
+    minHeight: 50,
+  },
+  media: {
+    height: 140,
+  },
 }));

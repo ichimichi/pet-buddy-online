@@ -5,6 +5,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { ItemRegistration } from './Pages/Items/ItemRegistration';
 import { NavBarWithRouter } from './Components/NavBar/NavBar';
+import { ItemList } from './Pages/Items/ItemList';
+import { ItemEdit } from './Pages/Items/ItemEdit';
 
 const useStyles = makeStyles((theme) => ({}));
 
@@ -25,17 +27,13 @@ export const App = ({ history }) => {
         <Route exact path="/">
           {(props) => {
             return (
-              <Typography
-                variant="h4"
-                {...props}
-                toggleLoading={handleToggleLoading}
-              >
+              <Typography variant="h4" {...props}>
                 Hello there
               </Typography>
             );
           }}
         </Route>
-        <Route exact path="/itemReg">
+        <Route exact path="/item/add">
           {(props) => {
             return (
               <ItemRegistration
@@ -45,14 +43,14 @@ export const App = ({ history }) => {
             );
           }}
         </Route>
-        <Route exact path="/itemList">
+        <Route exact path="/item/list">
           {(props) => {
-            return (
-              <ItemRegistration
-                {...props}
-                toggleLoading={handleToggleLoading}
-              />
-            );
+            return <ItemList {...props} toggleLoading={handleToggleLoading} />;
+          }}
+        </Route>
+        <Route exact path="/item/edit/:id">
+          {(props) => {
+            return <ItemEdit {...props} toggleLoading={handleToggleLoading} />;
           }}
         </Route>
         <Redirect to="/404" />

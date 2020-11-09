@@ -1,5 +1,3 @@
-import React, { useState } from 'react';
-import { useAppState } from '../../Provider/AppProvider';
 import {
   Box,
   Button,
@@ -9,16 +7,20 @@ import {
   Paper,
   Typography,
 } from '@material-ui/core';
-import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
-import axios from 'axios';
-import { useStyles } from './useStyles';
+import Axios from 'axios';
+import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
+import React, { useEffect, useState } from 'react';
+import { useAppState } from '../../Provider/AppProvider';
+import * as Yup from 'yup';
+import { useStyles } from './useStyles';
 
-export const ItemRegistration = ({ history, toggleLoading }) => {
+export const ItemEdit = ({ history, match, toggleLoading }) => {
   const classes = useStyles();
   const { apis } = useAppState();
+  const [oldItem, setOldItem] = useState(null);
   const [message, setMessage] = useState('');
+  const [fetched, setFetched] = useState(false);
 
   const initialValues = {
     name: '',
@@ -34,27 +36,49 @@ export const ItemRegistration = ({ history, toggleLoading }) => {
     toggleLoading();
 
     const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
       data: { ...values },
       withCredentials: true,
-      url: apis.item,
+      url: `${apis.item}/${match.params.id}`,
     };
 
     try {
-      const { data } = await axios(options);
+      const { data } = await Axios(options);
       console.log(data);
+      toggleLoading();
       history.push('/item/list');
     } catch (e) {
       console.error(e);
       if (e.response.status === 401) {
         setMessage('Unauthorized');
       }
+      toggleLoading();
     }
-    toggleLoading();
   };
+
+  useEffect(() => {
+    toggleLoading();
+    const getItem = async () => {
+      const options = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true,
+        url: `${apis.item}/${match.params.id}`,
+      };
+      try {
+        const { data } = await Axios(options);
+        console.log(data);
+        setOldItem(data);
+        toggleLoading();
+        setFetched(true);
+      } catch (e) {
+        console.error(e);
+        toggleLoading();
+      }
+    };
+    getItem();
+  }, [apis.item]);
 
   return (
     <Grid className={classes.background} container direction="row">
@@ -62,18 +86,19 @@ export const ItemRegistration = ({ history, toggleLoading }) => {
         <Box m={12}>
           <Paper elevation={1}>
             <Card>
-              <CardContent className={classes.content}>
+              <CardContent>
                 <Formik
-                  initialValues={initialValues}
+                  initialValues={oldItem || initialValues}
                   validationSchema={validationSchema}
                   onSubmit={onSubmit}
+                  enableReinitialize
                 >
                   {(formik) => {
                     return (
                       <Form>
                         <Box my={3}>
                           <Typography variant="h3">
-                            Item Registration
+                            Item Edit
                           </Typography>
                         </Box>
                         <div className="pt-3">
@@ -106,10 +131,12 @@ export const ItemRegistration = ({ history, toggleLoading }) => {
                             color="secondary"
                             fullWidth
                             disabled={
-                              !formik.isValid || formik.isSubmitting
+                              !formik.isValid ||
+                              formik.isSubmitting ||
+                              !fetched
                             }
                           >
-                            Register Item
+                            Update Item
                           </Button>
                         </Box>
                       </Form>
