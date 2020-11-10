@@ -4,7 +4,10 @@ import {
   Box,
   Button,
   Card,
+  CardActionArea,
+  CardActions,
   CardContent,
+  CardMedia,
   Grid,
   Paper,
   Typography,
@@ -18,6 +21,10 @@ import { TextField } from 'formik-material-ui';
 export const ItemRegistration = ({ history, toggleLoading }) => {
   const classes = useStyles();
   const { apis } = useAppState();
+  const [placeHolder, setPlaceHolder] = useState({
+    name: 'A cup of Coffee',
+    description: 'This is a very nice item to have.',
+  });
   const [message, setMessage] = useState('');
 
   const initialValues = {
@@ -57,19 +64,24 @@ export const ItemRegistration = ({ history, toggleLoading }) => {
   };
 
   return (
-    <Grid className={classes.background} container direction="row">
-      <Grid item xs={12}>
-        <Box m={12}>
-          <Paper elevation={1}>
-            <Card>
-              <CardContent className={classes.content}>
-                <Formik
-                  initialValues={initialValues}
-                  validationSchema={validationSchema}
-                  onSubmit={onSubmit}
-                >
-                  {(formik) => {
-                    return (
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+    >
+      {(formik) => {
+        return (
+          <Grid
+            className={classes.background}
+            container
+            direction="row"
+            justify="center"
+          >
+            <Grid item xs={12} md={6}>
+              <Box my={6} mx={2}>
+                <Paper elevation={1}>
+                  <Card>
+                    <CardContent className={classes.content}>
                       <Form>
                         <Box my={3}>
                           <Typography variant="h3">
@@ -98,6 +110,8 @@ export const ItemRegistration = ({ history, toggleLoading }) => {
                           margin="normal"
                           variant="outlined"
                           fullWidth
+                          multiline
+                          rows={4}
                         />
                         <Box my={4}>
                           <Button
@@ -113,14 +127,54 @@ export const ItemRegistration = ({ history, toggleLoading }) => {
                           </Button>
                         </Box>
                       </Form>
-                    );
-                  }}
-                </Formik>
-              </CardContent>
-            </Card>
-          </Paper>
-        </Box>
-      </Grid>
-    </Grid>
+                    </CardContent>
+                  </Card>
+                </Paper>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Box my={6} mx={2}>
+                <Paper elevation={1}>
+                  <Card className={classes.root}>
+                    <CardActionArea>
+                      <CardMedia
+                        className={classes.media}
+                        image="https://www.gannett-cdn.com/-mm-/b2b05a4ab25f4fca0316459e1c7404c537a89702/c=0-0-1365-768/local/-/media/2019/01/18/USATODAY/usatsports/gettyimages-500740897.jpg"
+                      />
+                      <CardContent>
+                        <Typography
+                          gutterBottom
+                          variant="h5"
+                          component="h2"
+                        >
+                          {formik.values.name || placeHolder.name}
+                        </Typography>
+                        <Typography
+                          className={classes.description}
+                          variant="body2"
+                          color="textSecondary"
+                          component="p"
+                        >
+                          {formik.values.description ||
+                            placeHolder.description}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                    <CardActions>
+                      <Button size="small" color="secondary" disabled>
+                        Edit
+                      </Button>
+                      <Button size="small" color="secondary" disabled>
+                        Delete
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </Paper>
+              </Box>
+            </Grid>
+          </Grid>
+        );
+      }}
+    </Formik>
   );
 };
