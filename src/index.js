@@ -1,14 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Redirect,
+  Route,
+  Switch,
+} from 'react-router-dom';
 import { App } from './App';
 import { AppProvider } from './Provider/AppProvider';
 import { AuthorizedRoute } from './Auth/AuthorizedRoute';
 import { UnAuthorizedRoute } from './Auth/UnAuthorizedRoute';
-import { SignIn } from './Auth/SignIn';
-import { SignUp } from './Auth/SignUp';
 import { NotFound } from './Pages/Errors/NotFound';
-import { CssBaseline, LinearProgress } from '@material-ui/core';
+import { CssBaseline } from '@material-ui/core';
 import { Auth } from './Auth/Auth';
 
 ReactDOM.render(

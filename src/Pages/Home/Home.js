@@ -20,10 +20,39 @@ export const Home = () => {
         direction="row"
         spacing={4}
       >
-        <Grid item xs={6} md={3}>
+        <Grid
+          container
+          item
+          direction="column"
+          xs={12}
+          md={3}
+          spacing={2}
+        >
+          <Grid item xs={12}>
+            <Paper elevation={1}>
+              <Card>
+                <CardContent className={classes.content}>
+                  <Typography variant="h3">Welcome</Typography>
+                </CardContent>
+              </Card>
+            </Paper>
+          </Grid>
+          <Grid item xs={12}>
+            <Paper elevation={1}>
+              <Card>
+                <CardContent
+                  className={classes.content}
+                ></CardContent>
+              </Card>
+            </Paper>
+          </Grid>
+        </Grid>
+        <Grid item xs={12} md={9}>
           <Paper elevation={1}>
             <Card>
-              <CardContent className={classes.content}></CardContent>
+              <CardContent
+                className={classes.contentBig}
+              ></CardContent>
             </Card>
           </Paper>
         </Grid>

@@ -5,9 +5,9 @@ export const useStyles = makeStyles((theme) => ({
     position: 'relative',
   },
   content: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
     minHeight: 150,
+  },
+  contentBig: {
+    minHeight: 300,
   },
 }));
