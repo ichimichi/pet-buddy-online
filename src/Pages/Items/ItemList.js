@@ -12,38 +12,71 @@ import {
   Paper,
   Typography,
 } from '@material-ui/core';
-import axios from 'axios';
 import { useStyles } from './useStyles';
 import Axios from 'axios';
 
-export const ItemList = ({ history, toggleLoading }) => {
+export const ItemList = ({ history, match, toggleLoading }) => {
   const classes = useStyles();
   const { apis } = useAppState();
   const [items, setItems] = useState(null);
   const [fetched, setFetched] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [nextPage, setNextPage] = useState(null);
+  const [prevPage, setPrevPage] = useState(null);
+  const [totalDocs, seTotalDocs] = useState(null);
+  const [totalPages, seTotalPages] = useState(null);
+  let page = match.params.page ? match.params.page : 1;
+
+  const getItems = async () => {
+    const options = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
+      params: {
+        page: page,
+      },
+      url: apis.item,
+    };
+
+    try {
+      const { data } = await Axios(options);
+      console.log(data);
+      if (!data.docs.length) {
+        page = null;
+        history.push(`/item/list`);
+        getItems();
+        return;
+      }
+      seTotalDocs(data.totalDocs);
+      seTotalPages(data.totalPages);
+      setPrevPage(data.prevPage);
+      setNextPage(data.nextPage);
+      setItems(data.docs);
+      setFetched(true);
+      toggleLoading();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleNext = () => {
+    toggleLoading();
+    page++;
+    history.push(`/item/list/${page}`);
+    getItems();
+  };
+
+  const handlePrevious = () => {
+    toggleLoading();
+    page--;
+    history.push(`/item/list/${page}`);
+    getItems();
+  };
 
   useEffect(() => {
     toggleLoading();
-    const getItems = async () => {
-      const options = {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,
-        url: apis.item,
-      };
-
-      try {
-        const { data } = await Axios(options);
-        setItems(data);
-        setFetched(true);
-        toggleLoading();
-      } catch (e) {
-        console.error(e);
-      }
-    };
     getItems();
-  }, [apis.item]);
+  }, []);
 
   const deleteItem = async (id) => {
     toggleLoading();
@@ -57,15 +90,15 @@ export const ItemList = ({ history, toggleLoading }) => {
 
     try {
       const { data } = await Axios(options);
-      setItems(
-        items.filter(({ _id }) => {
-          return _id !== data._id;
-        })
-      );
-      toggleLoading();
+      if (totalDocs % 4 === 1 && page === totalPages) {
+        page--;
+        history.push(`/item/list/${page}`);
+      }
+      getItems();
       setDeleting(false);
     } catch (e) {
       console.error(e);
+      setDeleting(false);
     }
   };
 
@@ -135,6 +168,32 @@ export const ItemList = ({ history, toggleLoading }) => {
               );
             })}
           </Grid>
+          <Box m={8}>
+            <Grid item container spacing={4} xs={12} justify="center">
+              {prevPage && (
+                <Grid item>
+                  <Button
+                    variant="contained"
+                    onClick={handlePrevious}
+                    color="primary"
+                  >
+                    Previous
+                  </Button>
+                </Grid>
+              )}
+              {nextPage && (
+                <Grid item>
+                  <Button
+                    variant="contained"
+                    onClick={handleNext}
+                    color="secondary"
+                  >
+                    Next
+                  </Button>
+                </Grid>
+              )}
+            </Grid>
+          </Box>
         </Box>
       )}
     </Grid>
