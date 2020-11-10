@@ -71,14 +71,15 @@ export const ItemRegistration = ({ history, toggleLoading }) => {
     >
       {(formik) => {
         return (
-          <Grid
-            className={classes.background}
-            container
-            direction="row"
-            justify="center"
-          >
-            <Grid item xs={12} md={6}>
-              <Box my={6} mx={2}>
+          <Box my={6} mx={2}>
+            <Grid
+              className={classes.background}
+              container
+              direction="row"
+              justify="center"
+              spacing={4}
+            >
+              <Grid item xs={12} md={6}>
                 <Paper elevation={1}>
                   <Card>
                     <CardContent className={classes.content}>
@@ -130,10 +131,8 @@ export const ItemRegistration = ({ history, toggleLoading }) => {
                     </CardContent>
                   </Card>
                 </Paper>
-              </Box>
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <Box my={6} mx={2}>
+              </Grid>
+              <Grid item xs={12} md={3}>
                 <Paper elevation={1}>
                   <Card className={classes.root}>
                     <CardActionArea>
@@ -170,9 +169,9 @@ export const ItemRegistration = ({ history, toggleLoading }) => {
                     </CardActions>
                   </Card>
                 </Paper>
-              </Box>
+              </Grid>
             </Grid>
-          </Grid>
+          </Box>
         );
       }}
     </Formik>
