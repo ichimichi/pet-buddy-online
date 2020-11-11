@@ -26,7 +26,7 @@ export const Home = () => {
             <Paper elevation={1}>
               <Card>
                 <CardContent className={classes.content}>
-                  <Typography variant="h4">Welcome</Typography>
+                  <Typography variant="h5">Welcome</Typography>
                 </CardContent>
               </Card>
             </Paper>

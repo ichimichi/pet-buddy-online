@@ -15,9 +15,13 @@ import {
   Home as HomeIcon,
 } from '@material-ui/icons';
 import { withRouter } from 'react-router-dom';
+import { useStyles } from './useStyles';
 
-const SideBar = ({ opened, toggleDrawer, history }) => {
+const SideBar = ({ opened, toggleDrawer, history, window }) => {
+  const classes = useStyles();
   const isXS = useMediaQuery((theme) => theme.breakpoints.down('xs'));
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
 
   const routes = [
     { path: '/', icon: <HomeIcon />, name: 'Home' },
@@ -52,21 +56,48 @@ const SideBar = ({ opened, toggleDrawer, history }) => {
   };
 
   return (
-    <Drawer
-      anchor={isXS ? 'top' : 'left'}
-      open={opened}
-      onClose={toggleDrawer}
-    >
-      <List>
-        <ListItem>
-          <Box my={2}>
-            <Typography variant="h4">Pet Buddy Online</Typography>
-          </Box>
-        </ListItem>
-        <Divider />
-        {getRoutes(routes)}
-      </List>
-    </Drawer>
+    <nav className={classes.drawer}>
+      {isXS ? (
+        <Drawer
+          container={container}
+          variant="temporary"
+          anchor="top"
+          open={opened}
+          onClose={toggleDrawer}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+        >
+          <List>
+            <ListItem>
+              <Box my={2}>
+                <Typography variant="h4">Pet Buddy Online</Typography>
+              </Box>
+            </ListItem>
+            <Divider />
+            {getRoutes(routes)}
+          </List>
+        </Drawer>
+      ) : (
+        <Drawer
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+          variant="permanent"
+          open
+        >
+          <List>
+            <ListItem>
+              <Box my={2}>
+                <Typography variant="h4">Pet Buddy Online</Typography>
+              </Box>
+            </ListItem>
+            <Divider />
+            {getRoutes(routes)}
+          </List>
+        </Drawer>
+      )}
+    </nav>
   );
 };
 

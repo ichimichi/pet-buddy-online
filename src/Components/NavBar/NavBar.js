@@ -24,21 +24,21 @@ export const NavBar = ({ history }) => {
 
   return (
     <>
-      <AppBar position="static" color="secondary">
-        <SideBarWithRouter
-          opened={opened}
-          toggleDrawer={handleDrawerToggle}
-        />
-
+      <AppBar
+        position="fixed"
+        color="secondary"
+        className={classes.appBar}
+      >
         <Toolbar>
           <IconButton
             edge="start"
             color="inherit"
             onClick={handleDrawerToggle}
+            className={classes.menuButton}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" color="inherit">
+          <Typography variant="h6" color="inherit" noWrap>
             Pet Buddy Online
           </Typography>
           <div className={classes.grow} />
@@ -53,6 +53,10 @@ export const NavBar = ({ history }) => {
           </IconButton>
         </Toolbar>
       </AppBar>
+      <SideBarWithRouter
+        opened={opened}
+        toggleDrawer={handleDrawerToggle}
+      />
     </>
   );
 };
