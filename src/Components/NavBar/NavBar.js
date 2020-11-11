@@ -1,4 +1,9 @@
-import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core';
+import {
+  AppBar,
+  IconButton,
+  Toolbar,
+  Typography,
+} from '@material-ui/core';
 import {
   Menu as MenuIcon,
   ExitToApp as ExitToAppIcon,
@@ -20,10 +25,17 @@ export const NavBar = ({ history }) => {
   return (
     <>
       <AppBar position="static" color="secondary">
-        <SideBarWithRouter opened={opened} toggleDrawer={handleDrawerToggle} />
+        <SideBarWithRouter
+          opened={opened}
+          toggleDrawer={handleDrawerToggle}
+        />
 
         <Toolbar>
-          <IconButton edge="start" color="inherit" onClick={handleDrawerToggle}>
+          <IconButton
+            edge="start"
+            color="inherit"
+            onClick={handleDrawerToggle}
+          >
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" color="inherit">
@@ -32,8 +44,8 @@ export const NavBar = ({ history }) => {
           <div className={classes.grow} />
           <IconButton
             color="inherit"
-            onClick={() => {
-              logout();
+            onClick={async () => {
+              await logout();
               history.push('/auth');
             }}
           >
