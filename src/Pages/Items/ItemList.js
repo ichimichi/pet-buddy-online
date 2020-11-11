@@ -40,7 +40,6 @@ export const ItemList = ({ history, match, toggleLoading }) => {
 
     try {
       const { data } = await Axios(options);
-      console.log(data);
       if (!data.docs.length) {
         page = null;
         history.push(`/item/list`);

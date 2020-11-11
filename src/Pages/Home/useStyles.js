@@ -10,4 +10,7 @@ export const useStyles = makeStyles((theme) => ({
   contentBig: {
     minHeight: 300,
   },
+  contentLeft: {
+    textAlign: 'right',
+  },
 }));
