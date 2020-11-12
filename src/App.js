@@ -52,6 +52,7 @@ export const App = ({ history }) => {
                 <ItemList
                   {...props}
                   toggleLoading={handleToggleLoading}
+                  isLoading={isLoading}
                 />
               );
             }}
