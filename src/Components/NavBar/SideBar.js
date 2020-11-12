@@ -16,6 +16,7 @@ import {
 } from '@material-ui/icons';
 import { withRouter } from 'react-router-dom';
 import { useStyles } from './useStyles';
+import clsx from 'clsx';
 
 const SideBar = ({ opened, toggleDrawer, history, window }) => {
   const classes = useStyles();
@@ -43,7 +44,9 @@ const SideBar = ({ opened, toggleDrawer, history, window }) => {
         <ListItem
           button
           onClick={() => {
-            toggleDrawer();
+            if (isXS) {
+              toggleDrawer();
+            }
             history.push(route.path);
           }}
           key={index}
@@ -80,21 +83,20 @@ const SideBar = ({ opened, toggleDrawer, history, window }) => {
         </Drawer>
       ) : (
         <Drawer
-          classes={{
-            paper: classes.drawerPaper,
-          }}
           variant="permanent"
-          open
+          className={clsx(classes.drawer, {
+            [classes.drawerOpen]: opened,
+            [classes.drawerClose]: !opened,
+          })}
+          classes={{
+            paper: clsx({
+              [classes.drawerOpen]: opened,
+              [classes.drawerClose]: !opened,
+            }),
+          }}
         >
-          <List>
-            <ListItem>
-              <Box my={2}>
-                <Typography variant="h4">Pet Buddy Online</Typography>
-              </Box>
-            </ListItem>
-            <Divider />
-            {getRoutes(routes)}
-          </List>
+          <div className={classes.toolbar} />
+          <List>{getRoutes(routes)}</List>
         </Drawer>
       )}
     </nav>

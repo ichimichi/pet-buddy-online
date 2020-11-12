@@ -13,6 +13,7 @@ import { withRouter } from 'react-router-dom';
 import { logout } from '../../Provider/AuthProvider';
 import { SideBarWithRouter } from './SideBar';
 import { useStyles } from './useStyles';
+import clsx from 'clsx';
 
 export const NavBar = ({ history }) => {
   const classes = useStyles();
@@ -27,7 +28,9 @@ export const NavBar = ({ history }) => {
       <AppBar
         position="fixed"
         color="secondary"
-        className={classes.appBar}
+        className={clsx(classes.appBar, {
+          [classes.appBarShift]: opened,
+        })}
       >
         <Toolbar>
           <IconButton

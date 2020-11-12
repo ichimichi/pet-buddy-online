@@ -26,5 +26,4 @@ export const appTheme = createMuiTheme({
   shape: {
     borderRadius: 4,
   },
-  spacing: 4,
 });
