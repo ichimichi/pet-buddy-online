@@ -87,10 +87,12 @@ export const ItemList = ({
                 <ItemCard
                   key={item._id}
                   {...item}
-                  refresh={refresh}
-                  history={history}
-                  toggleLoading={toggleLoading}
-                  isLoading={isLoading}
+                  {...{
+                    refresh,
+                    history,
+                    toggleLoading,
+                    isLoading,
+                  }}
                 />
               );
             })}

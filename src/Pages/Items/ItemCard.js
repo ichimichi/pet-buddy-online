@@ -15,16 +15,19 @@ import { useStyles } from './useStyles';
 import Axios from 'axios';
 import { useModal } from 'react-modal-hook';
 import { ConfirmDialog } from '../../Components/Modals/ConfirmDialog';
+import { ItemFormDialog } from './ItemFormDialog';
 
 export const ItemCard = ({
   history,
   toggleLoading,
   isLoading,
   refresh,
+  match,
   ...item
 }) => {
   const classes = useStyles();
   const { apis } = useAppState();
+
   const [showConfirmModal, hideConfirmModal] = useModal(
     ({ in: open, onExited }) => (
       <ConfirmDialog
@@ -35,6 +38,20 @@ export const ItemCard = ({
         onConfirm={() => deleteItem()}
         onCancel={hideConfirmModal}
         text="Deleting is irreversible"
+      />
+    ),
+    [item]
+  );
+
+  const [showEditModal, hideEditModal] = useModal(
+    ({ in: open, onExited }) => (
+      <ItemFormDialog
+        open={open}
+        onExited={onExited}
+        onCancel={hideEditModal}
+        id={item._id}
+        isEdit
+        {...{ toggleLoading, isLoading, match, history, refresh }}
       />
     ),
     [item]
@@ -87,10 +104,8 @@ export const ItemCard = ({
             <Button
               size="small"
               color="secondary"
-              disabled={isLoading || item.disabled}
-              onClick={() => {
-                history.push(`/item/edit/${item._id}`);
-              }}
+              disabled={item.disabled}
+              onClick={showEditModal}
             >
               Edit
             </Button>
