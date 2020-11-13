@@ -13,6 +13,8 @@ import React from 'react';
 import {
   AddBox as AddBoxIcon,
   Home as HomeIcon,
+  AmpStories as AmpStoriesIcon,
+  ViewList as ViewListIcon,
 } from '@material-ui/icons';
 import { withRouter } from 'react-router-dom';
 import { useStyles } from './useStyles';
@@ -33,8 +35,13 @@ const SideBar = ({ opened, toggleDrawer, history, window }) => {
     },
     {
       path: '/item/list',
-      icon: <AddBoxIcon />,
+      icon: <AmpStoriesIcon />,
       name: 'Item List',
+    },
+    {
+      path: '/item/table',
+      icon: <ViewListIcon />,
+      name: 'Item Table',
     },
   ];
 

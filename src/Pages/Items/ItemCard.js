@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useAppState } from '../../Provider/AppProvider';
 import {
-  Box,
   Button,
   Card,
   CardActionArea,
@@ -31,14 +30,14 @@ export const ItemCard = ({
       <ConfirmDialog
         open={open}
         onExited={onExited}
-        title="Are you sure you want to Delete?"
+        title={`Are you sure you want to Delete ${item.name}?`}
         confirmLabel="Delete"
         onConfirm={() => deleteItem()}
         onCancel={hideConfirmModal}
         text="Deleting is irreversible"
       />
     ),
-    []
+    [item]
   );
 
   const deleteItem = async () => {
@@ -62,7 +61,7 @@ export const ItemCard = ({
   };
 
   return (
-    <Grid item xs={12} sm={4} md={3}>
+    <Grid item xs={12} md={3}>
       <Paper elevation={1}>
         <Card className={classes.root}>
           <CardActionArea>
@@ -88,6 +87,7 @@ export const ItemCard = ({
             <Button
               size="small"
               color="secondary"
+              disabled={isLoading || item.disabled}
               onClick={() => {
                 history.push(`/item/edit/${item._id}`);
               }}
@@ -97,8 +97,8 @@ export const ItemCard = ({
             <Button
               size="small"
               color="secondary"
+              disabled={isLoading || item.disabled}
               onClick={showConfirmModal}
-              disabled={isLoading}
             >
               Delete
             </Button>

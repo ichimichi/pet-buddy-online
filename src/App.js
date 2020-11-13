@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useAppState } from './Provider/AppProvider';
 import { LinearProgress } from '@material-ui/core';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { ItemRegistration } from './Pages/Items/ItemRegistration';
 import { NavBarWithRouter } from './Components/NavBar/NavBar';
 import { ItemList } from './Pages/Items/ItemList';
 import { ItemEdit } from './Pages/Items/ItemEdit';
 import { Home } from './Pages/Home/Home';
 import { useStyles } from './Components/NavBar/useStyles';
+import { ItemTable } from './Pages/Items/ItemTable';
 
 export const App = ({ history }) => {
   const classes = useStyles();
@@ -18,6 +18,11 @@ export const App = ({ history }) => {
     setIsLoading((isLoading) => !isLoading);
   };
 
+  const extra = {
+    toggleLoading: handleToggleLoading,
+    isLoading: isLoading,
+  };
+
   return (
     <div className={classes.root}>
       <NavBarWithRouter />
@@ -26,47 +31,38 @@ export const App = ({ history }) => {
         <div className={classes.toolbar} />
         {isLoading && <LinearProgress />}
         <Switch>
-          <Route exact path="/">
-            {(props) => {
-              return (
-                <Home
-                  {...props}
-                  toggleLoading={handleToggleLoading}
-                />
-              );
-            }}
-          </Route>
-          <Route exact path="/item/add">
-            {(props) => {
-              return (
-                <ItemRegistration
-                  {...props}
-                  toggleLoading={handleToggleLoading}
-                />
-              );
-            }}
-          </Route>
-          <Route exact path="/item/list/:page?">
-            {(props) => {
-              return (
-                <ItemList
-                  {...props}
-                  toggleLoading={handleToggleLoading}
-                  isLoading={isLoading}
-                />
-              );
-            }}
-          </Route>
-          <Route exact path="/item/edit/:id">
-            {(props) => {
-              return (
-                <ItemEdit
-                  {...props}
-                  toggleLoading={handleToggleLoading}
-                />
-              );
-            }}
-          </Route>
+          <Route
+            exact
+            path="/"
+            key="dashboard"
+            render={(props) => <Home {...props} {...extra} />}
+          />
+          <Route
+            exact
+            path="/item/add"
+            key="itemAdd"
+            render={(props) => <ItemEdit {...props} {...extra} />}
+          />
+          <Route
+            exact
+            path="/item/edit/:id"
+            key="itemEdit"
+            render={(props) => (
+              <ItemEdit isEdit {...props} {...extra} />
+            )}
+          />
+          <Route
+            exact
+            path="/item/list/:page?"
+            key="itemList"
+            render={(props) => <ItemList {...props} {...extra} />}
+          />
+          <Route
+            exact
+            path="/item/table/:page?"
+            key="itemTable"
+            render={(props) => <ItemTable {...props} {...extra} />}
+          />
           <Redirect to="/404" />
         </Switch>
       </main>
