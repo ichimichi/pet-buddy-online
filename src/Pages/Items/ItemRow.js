@@ -12,11 +12,9 @@ import { ConfirmDialog } from '../../Components/Modals/ConfirmDialog';
 import { ItemFormDialog } from './ItemFormDialog';
 
 export const ItemRow = ({
-  history,
   toggleLoading,
   isLoading,
   refresh,
-  match,
   ...item
 }) => {
   const classes = useStyles();
@@ -45,7 +43,7 @@ export const ItemRow = ({
         onCancel={hideEditModal}
         id={item._id}
         isEdit
-        {...{ toggleLoading, isLoading, match, history, refresh }}
+        {...{ toggleLoading, isLoading, refresh }}
       />
     ),
     [item]
@@ -63,6 +61,7 @@ export const ItemRow = ({
 
     try {
       const { data } = await Axios(options);
+      console.log('deleted', data);
       refresh();
       toggleLoading();
     } catch (e) {

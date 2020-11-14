@@ -4,7 +4,7 @@ import { LinearProgress } from '@material-ui/core';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { NavBarWithRouter } from './Components/NavBar/NavBar';
 import { ItemList } from './Pages/Items/ItemList';
-import { ItemEdit } from './Pages/Items/ItemEdit';
+import { ItemFormContainer } from './Pages/Items/ItemFormContainer';
 import { Home } from './Pages/Home/Home';
 import { useStyles } from './Components/NavBar/useStyles';
 import { ItemTable } from './Pages/Items/ItemTable';
@@ -41,14 +41,16 @@ export const App = ({ history }) => {
             exact
             path="/item/add"
             key="itemAdd"
-            render={(props) => <ItemEdit {...props} {...extra} />}
+            render={(props) => (
+              <ItemFormContainer {...props} {...extra} />
+            )}
           />
           <Route
             exact
             path="/item/edit/:id"
             key="itemEdit"
             render={(props) => (
-              <ItemEdit isEdit {...props} {...extra} />
+              <ItemFormContainer isEdit {...props} {...extra} />
             )}
           />
           <Route

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useAppState } from '../../Provider/AppProvider';
 import {
   Box,
-  Button,
   Grid,
   IconButton,
   makeStyles,
@@ -97,7 +96,7 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-export const ItemTable = ({ history, toggleLoading, isLoading }) => {
+export const ItemTable = ({ toggleLoading, isLoading, ...rest }) => {
   const classes = useStyles();
   const { apis } = useAppState();
   const [items, setItems] = useState(null);
@@ -131,7 +130,7 @@ export const ItemTable = ({ history, toggleLoading, isLoading }) => {
 
     try {
       const { data } = await Axios(options);
-      console.log(data);
+      console.log('fetched many', data);
       setCount(data.totalDocs);
       setItems(data.docs);
       setFetched(true);
@@ -155,6 +154,7 @@ export const ItemTable = ({ history, toggleLoading, isLoading }) => {
       direction="column"
       justify="center"
       spacing={0}
+      {...rest}
     >
       {fetched && (
         <Box m={4}>
@@ -177,10 +177,11 @@ export const ItemTable = ({ history, toggleLoading, isLoading }) => {
                       <ItemRow
                         key={item._id}
                         {...item}
-                        refresh={refresh}
-                        history={history}
-                        toggleLoading={toggleLoading}
-                        isLoading={isLoading}
+                        {...{
+                          toggleLoading,
+                          isLoading,
+                          refresh,
+                        }}
                       />
                     );
                   })}

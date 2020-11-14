@@ -10,6 +10,7 @@ export const ItemList = ({
   match,
   toggleLoading,
   isLoading,
+  ...rest
 }) => {
   const classes = useStyles();
   const { apis } = useAppState();
@@ -34,8 +35,9 @@ export const ItemList = ({
 
     try {
       const { data } = await Axios(options);
+      console.log('fetched many', data);
       if (!data.docs.length) {
-        page = null;
+        page = 0;
         history.push(`/item/list`);
         getItems();
         return;
@@ -93,6 +95,7 @@ export const ItemList = ({
                     toggleLoading,
                     isLoading,
                   }}
+                  {...rest}
                 />
               );
             })}
