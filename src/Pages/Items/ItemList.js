@@ -17,7 +17,7 @@ export const ItemList = ({
   const [fetched, setFetched] = useState(false);
   const [nextPage, setNextPage] = useState(null);
   const [prevPage, setPrevPage] = useState(null);
-  let page = match.params.page ? match.params.page : 1;
+  let page = match.params.page ? match.params.page : 0;
 
   const [render, setRender] = useState(false);
 

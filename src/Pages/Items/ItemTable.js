@@ -1,25 +1,121 @@
 import React, { useEffect, useState } from 'react';
 import { useAppState } from '../../Provider/AppProvider';
-import { Box, Button, Grid } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  Grid,
+  IconButton,
+  makeStyles,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableFooter,
+  TableHead,
+  TablePagination,
+  TableRow,
+} from '@material-ui/core';
 import { useStyles } from './useStyles';
 import Axios from 'axios';
-import { ItemCard } from './ItemCard';
+import { ItemRow } from './ItemRow';
+import {
+  FirstPage as FirstPageIcon,
+  KeyboardArrowLeft as KeyboardArrowLeftIcon,
+  KeyboardArrowRight as KeyboardArrowRightIcon,
+  LastPage as LastPageIcon,
+} from '@material-ui/icons';
+import PropTypes from 'prop-types';
 
-export const ItemTable = ({
-  history,
-  match,
-  toggleLoading,
-  isLoading,
-}) => {
+const useStyles1 = makeStyles((theme) => ({
+  root: {
+    flexShrink: 0,
+    marginLeft: theme.spacing(2.5),
+  },
+}));
+function TablePaginationActions(props) {
+  const classes = useStyles1();
+  const { count, page, rowsPerPage, onChangePage } = props;
+
+  const handleFirstPageButtonClick = (event) => {
+    onChangePage(event, 0);
+  };
+
+  const handleBackButtonClick = (event) => {
+    onChangePage(event, page - 1);
+  };
+
+  const handleNextButtonClick = (event) => {
+    onChangePage(event, page + 1);
+  };
+
+  const handleLastPageButtonClick = (event) => {
+    onChangePage(
+      event,
+      Math.max(0, Math.ceil(count / rowsPerPage) - 1)
+    );
+  };
+
+  return (
+    <div className={classes.root}>
+      <IconButton
+        onClick={handleFirstPageButtonClick}
+        disabled={page === 0}
+        aria-label="first page"
+      >
+        <FirstPageIcon />
+      </IconButton>
+      <IconButton
+        onClick={handleBackButtonClick}
+        disabled={page === 0}
+        aria-label="previous page"
+      >
+        <KeyboardArrowLeftIcon />
+      </IconButton>
+      <IconButton
+        onClick={handleNextButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="next page"
+      >
+        <KeyboardArrowRightIcon />
+      </IconButton>
+      <IconButton
+        onClick={handleLastPageButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="last page"
+      >
+        <LastPageIcon />
+      </IconButton>
+    </div>
+  );
+}
+
+TablePaginationActions.propTypes = {
+  count: PropTypes.number.isRequired,
+  onChangePage: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
+};
+
+export const ItemTable = ({ history, toggleLoading, isLoading }) => {
   const classes = useStyles();
   const { apis } = useAppState();
   const [items, setItems] = useState(null);
   const [fetched, setFetched] = useState(false);
-  const [nextPage, setNextPage] = useState(null);
-  const [prevPage, setPrevPage] = useState(null);
-  let page = match.params.page ? match.params.page : 1;
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [count, setCount] = useState(0);
 
   const [render, setRender] = useState(false);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   const getItems = async () => {
     const options = {
@@ -28,20 +124,15 @@ export const ItemTable = ({
       withCredentials: true,
       params: {
         page: page,
+        perpage: rowsPerPage,
       },
       url: apis.item,
     };
 
     try {
       const { data } = await Axios(options);
-      if (!data.docs.length) {
-        page = null;
-        history.push(`/item/list`);
-        getItems();
-        return;
-      }
-      setPrevPage(data.prevPage);
-      setNextPage(data.nextPage);
+      console.log(data);
+      setCount(data.totalDocs);
       setItems(data.docs);
       setFetched(true);
       toggleLoading();
@@ -50,24 +141,10 @@ export const ItemTable = ({
     }
   };
 
-  const handleNext = () => {
-    toggleLoading();
-    page++;
-    history.push(`/item/list/${page}`);
-    getItems();
-  };
-
-  const handlePrevious = () => {
-    toggleLoading();
-    page--;
-    history.push(`/item/list/${page}`);
-    getItems();
-  };
-
   useEffect(() => {
     toggleLoading();
     getItems();
-  }, [render]);
+  }, [page, render, rowsPerPage]);
 
   const refresh = () => setRender((render) => !render);
 
@@ -82,45 +159,58 @@ export const ItemTable = ({
       {fetched && (
         <Box m={4}>
           <Grid item container direction="row" spacing={3}>
-            {items.map((item) => {
-              return (
-                <ItemCard
-                  key={item._id}
-                  {...item}
-                  refresh={refresh}
-                  history={history}
-                  toggleLoading={toggleLoading}
-                  isLoading={isLoading}
-                />
-              );
-            })}
+            <TableContainer component={Paper}>
+              <Table
+                className={classes.table}
+                aria-label="simple table"
+              >
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Name</TableCell>
+                    <TableCell align="right">Description</TableCell>
+                    <TableCell align="right"></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {items.map((item) => {
+                    return (
+                      <ItemRow
+                        key={item._id}
+                        {...item}
+                        refresh={refresh}
+                        history={history}
+                        toggleLoading={toggleLoading}
+                        isLoading={isLoading}
+                      />
+                    );
+                  })}
+                </TableBody>
+                <TableFooter>
+                  <TableRow>
+                    <TablePagination
+                      rowsPerPageOptions={[
+                        5,
+                        10,
+                        25,
+                        { label: 'All', value: count },
+                      ]}
+                      colSpan={3}
+                      count={count}
+                      rowsPerPage={rowsPerPage}
+                      page={page}
+                      SelectProps={{
+                        inputProps: { 'aria-label': 'rows per page' },
+                        native: true,
+                      }}
+                      onChangePage={handleChangePage}
+                      onChangeRowsPerPage={handleChangeRowsPerPage}
+                      ActionsComponent={TablePaginationActions}
+                    />
+                  </TableRow>
+                </TableFooter>
+              </Table>
+            </TableContainer>
           </Grid>
-          <Box m={8}>
-            <Grid item container spacing={4} xs={12} justify="center">
-              {prevPage && (
-                <Grid item>
-                  <Button
-                    variant="contained"
-                    onClick={handlePrevious}
-                    color="primary"
-                  >
-                    Previous
-                  </Button>
-                </Grid>
-              )}
-              {nextPage && (
-                <Grid item>
-                  <Button
-                    variant="contained"
-                    onClick={handleNext}
-                    color="secondary"
-                  >
-                    Next
-                  </Button>
-                </Grid>
-              )}
-            </Grid>
-          </Box>
         </Box>
       )}
     </Grid>
