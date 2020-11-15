@@ -16,6 +16,7 @@ import {
   Home as HomeIcon,
   AmpStories as AmpStoriesIcon,
   ViewList as ViewListIcon,
+  AccountBox as AccountBoxIcon,
 } from '@material-ui/icons';
 import { withRouter } from 'react-router-dom';
 import { useStyles } from './useStyles';
@@ -43,6 +44,11 @@ const SideBar = ({ opened, toggleDrawer, history, window }) => {
       path: '/item/table',
       icon: <ViewListIcon />,
       name: 'Item Table',
+    },
+    {
+      path: '/user/profile',
+      icon: <AccountBoxIcon />,
+      name: 'Profile',
     },
   ];
 

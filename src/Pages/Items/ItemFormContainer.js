@@ -28,7 +28,7 @@ export const ItemFormContainer = ({
         <Grid item xs={12} md={6}>
           <Paper elevation={1}>
             <Card>
-              <CardContent className={classes.content}>
+              <CardContent>
                 <ItemForm
                   {...{ toggleLoading, isLoading }}
                   {...rest}

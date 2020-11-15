@@ -99,7 +99,7 @@ export const ItemForm = ({
       {(formik) => {
         return (
           <>
-            <Box my={3}>
+            <Box mb={3}>
               {message ? (
                 <Typography variant="h3" color="error">
                   {message}
@@ -109,45 +109,45 @@ export const ItemForm = ({
                   {isEdit ? 'Item Edit' : 'Item Registration'}
                 </Typography>
               )}
-              <Form>
-                <div className="pt-3"></div>
-                <Field
-                  component={TextField}
-                  name="name"
-                  type="text"
-                  label="Item Name"
-                  margin="normal"
-                  variant="outlined"
-                  fullWidth
-                />
-                <Field
-                  component={TextField}
-                  name="description"
-                  type="text"
-                  label="Description"
-                  margin="normal"
-                  variant="outlined"
-                  fullWidth
-                  multiline
-                  rows={4}
-                />
-                <Box mt={4}>
-                  <Button
-                    type="submtit"
-                    variant="contained"
-                    color="secondary"
-                    fullWidth
-                    disabled={
-                      !formik.isValid ||
-                      formik.isSubmitting ||
-                      isLoading
-                    }
-                  >
-                    {isEdit ? ' Update Item' : 'Register Item'}
-                  </Button>
-                </Box>
-              </Form>
             </Box>
+            <Form>
+              <div className="pt-3"></div>
+              <Field
+                component={TextField}
+                name="name"
+                type="text"
+                label="Item Name"
+                margin="normal"
+                variant="outlined"
+                fullWidth
+              />
+              <Field
+                component={TextField}
+                name="description"
+                type="text"
+                label="Description"
+                margin="normal"
+                variant="outlined"
+                fullWidth
+                multiline
+                rows={4}
+              />
+              <Box my={4}>
+                <Button
+                  type="submtit"
+                  variant="contained"
+                  color="secondary"
+                  fullWidth
+                  disabled={
+                    !formik.isValid ||
+                    formik.isSubmitting ||
+                    isLoading
+                  }
+                >
+                  {isEdit ? ' Update Item' : 'Register Item'}
+                </Button>
+              </Box>
+            </Form>
           </>
         );
       }}

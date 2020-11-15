@@ -1,7 +1,6 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext } from 'react';
 import { ThemeProvider } from '@material-ui/styles';
 import { appTheme } from './appTheme';
-import Cookies from 'universal-cookie';
 
 const Context = createContext();
 const { Provider } = Context;
@@ -12,7 +11,9 @@ export const AppProvider = ({ children }) => {
     signin: serverAddress + '/signin',
     signup: serverAddress + '/signup',
     item: serverAddress + '/api/item',
+    user: serverAddress + '/api/user',
   };
+
   return (
     <ThemeProvider theme={appTheme}>
       <Provider value={{ apis }}>{children}</Provider>

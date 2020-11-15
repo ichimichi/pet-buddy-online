@@ -8,6 +8,7 @@ import { ItemFormContainer } from './Pages/Items/ItemFormContainer';
 import { Home } from './Pages/Home/Home';
 import { useStyles } from './Components/NavBar/useStyles';
 import { ItemTable } from './Pages/Items/ItemTable';
+import { ProfileContainer } from './Pages/Profile/ProfileContainer';
 
 export const App = ({ history }) => {
   const classes = useStyles();
@@ -64,6 +65,14 @@ export const App = ({ history }) => {
             path="/item/table/:page?"
             key="itemTable"
             render={(props) => <ItemTable {...props} {...extra} />}
+          />
+          <Route
+            exact
+            path="/user/profile/:id?"
+            key="profile"
+            render={(props) => (
+              <ProfileContainer {...props} {...extra} />
+            )}
           />
           <Redirect to="/404" />
         </Switch>
