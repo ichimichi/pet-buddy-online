@@ -1,4 +1,9 @@
-import { IconButton, TableCell, TableRow } from '@material-ui/core';
+import {
+  IconButton,
+  TableCell,
+  TableRow,
+  Tooltip,
+} from '@material-ui/core';
 import React from 'react';
 import { useAppState } from '../../Provider/AppProvider';
 import {
@@ -77,12 +82,16 @@ export const ItemRow = ({
       </TableCell>
       <TableCell align="right">{item.description}</TableCell>
       <TableCell align="right">
-        <IconButton onClick={showEditModal}>
-          <EditIcon />
-        </IconButton>
-        <IconButton onClick={showConfirmModal}>
-          <DeleteIcon />
-        </IconButton>
+        <Tooltip arrow title="Edit">
+          <IconButton onClick={showEditModal}>
+            <EditIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip arrow title="Delete">
+          <IconButton onClick={showConfirmModal}>
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
       </TableCell>
     </TableRow>
   );

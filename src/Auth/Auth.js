@@ -14,16 +14,20 @@ export const Auth = () => {
     <>
       {isLoading && <LinearProgress />}
       <Switch>
-        <Route exact path="/auth/signup">
-          {(props) => {
-            return <SignUp toggleLoading={handleToggleLoading} {...props} />;
-          }}
-        </Route>
-        <Route exact path="/auth">
-          {(props) => {
-            return <SignIn toggleLoading={handleToggleLoading} {...props} />;
-          }}
-        </Route>
+        <Route
+          exact
+          path="/auth/signup"
+          render={(props) => (
+            <SignUp toggleLoading={handleToggleLoading} {...props} />
+          )}
+        />
+        <Route
+          exact
+          path="/auth"
+          render={(props) => (
+            <SignIn toggleLoading={handleToggleLoading} {...props} />
+          )}
+        />
       </Switch>
     </>
   );

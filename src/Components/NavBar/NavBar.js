@@ -2,6 +2,7 @@ import {
   AppBar,
   IconButton,
   Toolbar,
+  Tooltip,
   Typography,
 } from '@material-ui/core';
 import {
@@ -45,15 +46,17 @@ export const NavBar = ({ history }) => {
             Pet Buddy Online
           </Typography>
           <div className={classes.grow} />
-          <IconButton
-            color="inherit"
-            onClick={async () => {
-              await logout();
-              history.push('/auth');
-            }}
-          >
-            <ExitToAppIcon />
-          </IconButton>
+          <Tooltip arrow title="Logout">
+            <IconButton
+              color="inherit"
+              onClick={async () => {
+                await logout();
+                history.push('/auth');
+              }}
+            >
+              <ExitToAppIcon />
+            </IconButton>
+          </Tooltip>
         </Toolbar>
       </AppBar>
       <SideBarWithRouter

@@ -6,6 +6,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Tooltip,
   Typography,
   useMediaQuery,
 } from '@material-ui/core';
@@ -58,7 +59,9 @@ const SideBar = ({ opened, toggleDrawer, history, window }) => {
           }}
           key={index}
         >
-          <ListItemIcon>{route.icon}</ListItemIcon>
+          <Tooltip title={route.name} placement="right">
+            <ListItemIcon>{route.icon}</ListItemIcon>
+          </Tooltip>
           <ListItemText primary={route.name} />
         </ListItem>
       );
