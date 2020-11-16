@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAppState } from '../../Provider/AppProvider';
-import { Box, Button, Grid } from '@material-ui/core';
+import { Box, Button, Grid, Typography } from '@material-ui/core';
 import { useStyles } from './useStyles';
 import Axios from 'axios';
 import { ItemCard } from './ItemCard';
@@ -18,6 +18,7 @@ export const ItemList = ({
   const [fetched, setFetched] = useState(false);
   const [nextPage, setNextPage] = useState(null);
   const [prevPage, setPrevPage] = useState(null);
+  const [empty, setEmpty] = useState(false);
   let page = match.params.page ? match.params.page : 0;
 
   const [render, setRender] = useState(false);
@@ -37,10 +38,14 @@ export const ItemList = ({
       const { data } = await Axios(options);
       console.log('fetched many', data);
       if (!data.docs.length) {
-        page = 0;
-        history.push(`/item/list`);
-        getItems();
-        return;
+        if (data.offset !== 0) {
+          page = 0;
+          history.push(`/item/list`);
+          getItems();
+          return;
+        } else {
+          setEmpty(true);
+        }
       }
       setPrevPage(data.prevPage);
       setNextPage(data.nextPage);
@@ -81,6 +86,16 @@ export const ItemList = ({
       justify="center"
       spacing={0}
     >
+      {empty && (
+        <Box m={4}>
+          <Grid item spacing={3}>
+            <Typography variant="h4">Empty</Typography>
+            <Typography variant="subtitle1">
+              There are no Items yet
+            </Typography>
+          </Grid>
+        </Box>
+      )}
       {fetched && (
         <Box m={4}>
           <Grid item container direction="row" spacing={3}>

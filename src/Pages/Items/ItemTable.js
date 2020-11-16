@@ -14,6 +14,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Typography,
 } from '@material-ui/core';
 import { useStyles } from './useStyles';
 import Axios from 'axios';
@@ -101,6 +102,7 @@ export const ItemTable = ({ toggleLoading, isLoading, ...rest }) => {
   const { apis } = useAppState();
   const [items, setItems] = useState(null);
   const [fetched, setFetched] = useState(false);
+  const [empty, setEmpty] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [count, setCount] = useState(0);
@@ -131,6 +133,11 @@ export const ItemTable = ({ toggleLoading, isLoading, ...rest }) => {
     try {
       const { data } = await Axios(options);
       console.log('fetched many', data);
+      if (!data.docs.length && data.offset === 0) {
+        setEmpty(true);
+        toggleLoading();
+        return;
+      }
       setCount(data.totalDocs);
       setItems(data.docs);
       setFetched(true);
@@ -156,6 +163,16 @@ export const ItemTable = ({ toggleLoading, isLoading, ...rest }) => {
       spacing={0}
       {...rest}
     >
+      {empty && (
+        <Box m={4}>
+          <Grid item spacing={3}>
+            <Typography variant="h4">Empty</Typography>
+            <Typography variant="subtitle1">
+              There are no Items yet
+            </Typography>
+          </Grid>
+        </Box>
+      )}
       {fetched && (
         <Box m={4}>
           <Grid item container direction="row" spacing={3}>
