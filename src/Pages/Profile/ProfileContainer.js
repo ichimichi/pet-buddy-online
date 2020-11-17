@@ -34,12 +34,12 @@ export const ProfileContainer = ({ toggleLoading, isLoading }) => {
   return (
     <>
       {fetched && (
-        <Box m={4}>
+        <>
           <Typography variant="h4">
             {user.firstName} {user.lastName}
           </Typography>
           <Typography variant="subtitle1">{user.email}</Typography>
-        </Box>
+        </>
       )}
     </>
   );

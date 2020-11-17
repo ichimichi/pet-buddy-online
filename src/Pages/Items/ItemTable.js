@@ -164,72 +164,68 @@ export const ItemTable = ({ toggleLoading, isLoading, ...rest }) => {
       {...rest}
     >
       {empty && (
-        <Box m={4}>
-          <Grid item spacing={3}>
-            <Typography variant="h4">Empty</Typography>
-            <Typography variant="subtitle1">
-              There are no Items yet
-            </Typography>
-          </Grid>
-        </Box>
+        <Grid item spacing={3}>
+          <Typography variant="h4">Empty</Typography>
+          <Typography variant="subtitle1">
+            There are no Items yet
+          </Typography>
+        </Grid>
       )}
       {fetched && (
-        <Box m={4}>
-          <Grid item container direction="row" spacing={3}>
-            <TableContainer component={Paper}>
-              <Table
-                className={classes.table}
-                aria-label="simple table"
-              >
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Name</TableCell>
-                    <TableCell align="right">Description</TableCell>
-                    <TableCell align="right"></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {items.map((item) => {
-                    return (
-                      <ItemRow
-                        key={item._id}
-                        {...item}
-                        {...{
-                          toggleLoading,
-                          isLoading,
-                          refresh,
-                        }}
-                      />
-                    );
-                  })}
-                </TableBody>
-                <TableFooter>
-                  <TableRow>
-                    <TablePagination
-                      rowsPerPageOptions={[
-                        5,
-                        10,
-                        25,
-                        { label: 'All', value: count },
-                      ]}
-                      colSpan={3}
-                      count={count}
-                      rowsPerPage={rowsPerPage}
-                      page={page}
-                      SelectProps={{
-                        inputProps: { 'aria-label': 'rows per page' },
-                        native: true,
+        <Grid item container direction="row" spacing={3}>
+          <TableContainer component={Paper}>
+            <Table
+              className={classes.table}
+              aria-label="simple table"
+            >
+              <TableHead>
+                <TableRow>
+                  <TableCell>Name</TableCell>
+                  <TableCell align="right">Description</TableCell>
+                  <TableCell align="right"></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {items.map((item) => {
+                  return (
+                    <ItemRow
+                      key={item._id}
+                      {...item}
+                      {...{
+                        toggleLoading,
+                        isLoading,
+                        refresh,
                       }}
-                      onChangePage={handleChangePage}
-                      onChangeRowsPerPage={handleChangeRowsPerPage}
-                      ActionsComponent={TablePaginationActions}
                     />
-                  </TableRow>
-                </TableFooter>
-              </Table>
-            </TableContainer>
-          </Grid>
-        </Box>
+                  );
+                })}
+              </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TablePagination
+                    rowsPerPageOptions={[
+                      5,
+                      10,
+                      25,
+                      { label: 'All', value: count },
+                    ]}
+                    colSpan={3}
+                    count={count}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    SelectProps={{
+                      inputProps: { 'aria-label': 'rows per page' },
+                      native: true,
+                    }}
+                    onChangePage={handleChangePage}
+                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                    ActionsComponent={TablePaginationActions}
+                  />
+                </TableRow>
+              </TableFooter>
+            </Table>
+          </TableContainer>
+        </Grid>
       )}
     </Grid>
   );

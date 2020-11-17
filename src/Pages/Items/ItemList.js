@@ -87,17 +87,16 @@ export const ItemList = ({
       spacing={0}
     >
       {empty && (
-        <Box m={4}>
-          <Grid item spacing={3}>
-            <Typography variant="h4">Empty</Typography>
-            <Typography variant="subtitle1">
-              There are no Items yet
-            </Typography>
-          </Grid>
-        </Box>
+        <Grid item spacing={3}>
+          <Typography variant="h4">Empty</Typography>
+          <Typography variant="subtitle1">
+            There are no Items yet
+          </Typography>
+        </Grid>
       )}
       {fetched && (
-        <Box m={4}>
+        <>
+          {' '}
           <Grid item container direction="row" spacing={3}>
             {items.map((item) => {
               return (
@@ -141,7 +140,7 @@ export const ItemList = ({
               )}
             </Grid>
           </Box>
-        </Box>
+        </>
       )}
     </Grid>
   );
