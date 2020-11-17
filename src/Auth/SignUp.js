@@ -14,11 +14,13 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { TextField } from 'formik-material-ui';
+import { useSnackbar } from 'notistack';
 
 export const SignUp = ({ history, toggleLoading }) => {
   const classes = useStyles();
   const { apis } = useAppState();
   const [message, setMessage] = useState('');
+  const { enqueueSnackbar } = useSnackbar();
 
   const initialValues = {
     firstName: '',
@@ -58,10 +60,12 @@ export const SignUp = ({ history, toggleLoading }) => {
     try {
       await axios(options);
       toggleLoading();
+      enqueueSnackbar('Welcome');
       history.push('/');
     } catch (e) {
       console.error(e);
       if (e.response.status === 400) {
+        enqueueSnackbar('User with provided e-mail already exists');
         setMessage('User with provided e-mail already exists');
         toggleLoading();
       }

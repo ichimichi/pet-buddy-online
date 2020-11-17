@@ -15,11 +15,13 @@ import { TextField } from 'formik-material-ui';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { useSnackbar } from 'notistack';
 
 export const SignIn = ({ history, toggleLoading }) => {
   const classes = useStyles();
   const { apis } = useAppState();
   const [message, setMessage] = useState('');
+  const { enqueueSnackbar } = useSnackbar();
 
   const initialValues = {
     email: '',
@@ -27,7 +29,9 @@ export const SignIn = ({ history, toggleLoading }) => {
   };
 
   const validationSchema = Yup.object({
-    email: Yup.string().email('Invalid email').required('email is required'),
+    email: Yup.string()
+      .email('Invalid email')
+      .required('email is required'),
     password: Yup.string().required('password is required'),
   });
 
@@ -44,11 +48,13 @@ export const SignIn = ({ history, toggleLoading }) => {
 
     try {
       await axios(options);
+      enqueueSnackbar('Welcome');
       history.push('/');
     } catch (e) {
       console.error(e);
       if (e.response.status === 401) {
         setMessage('Invalid E-mail or password combination!');
+        enqueueSnackbar('Invalid E-mail or password combination!');
       }
     }
     toggleLoading();
@@ -90,7 +96,9 @@ export const SignIn = ({ history, toggleLoading }) => {
                   return (
                     <Form>
                       <Box my={4}>
-                        <Typography variant="h3">Pet Buddy Online</Typography>
+                        <Typography variant="h3">
+                          Pet Buddy Online
+                        </Typography>
                       </Box>
                       <Typography>
                         Welcome, Please Login in order to continue
@@ -120,7 +128,9 @@ export const SignIn = ({ history, toggleLoading }) => {
                           variant="contained"
                           color="primary"
                           fullWidth
-                          disabled={!formik.isValid || formik.isSubmitting}
+                          disabled={
+                            !formik.isValid || formik.isSubmitting
+                          }
                         >
                           Login
                         </Button>

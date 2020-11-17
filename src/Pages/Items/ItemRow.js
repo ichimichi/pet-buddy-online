@@ -15,6 +15,7 @@ import Axios from 'axios';
 import { useModal } from 'react-modal-hook';
 import { ConfirmDialog } from '../../Components/Modals/ConfirmDialog';
 import { ItemFormDialog } from './ItemFormDialog';
+import { useSnackbar } from 'notistack';
 
 export const ItemRow = ({
   toggleLoading,
@@ -24,6 +25,7 @@ export const ItemRow = ({
 }) => {
   const classes = useStyles();
   const { apis } = useAppState();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const [showConfirmModal, hideConfirmModal] = useModal(
     ({ in: open, onExited }) => (
@@ -68,6 +70,7 @@ export const ItemRow = ({
       const { data } = await Axios(options);
       console.log('deleted', data);
       refresh();
+      enqueueSnackbar(`${data.name} Deleted!`);
       toggleLoading();
     } catch (e) {
       console.error(e);

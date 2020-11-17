@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { useAppState } from '../../Provider/AppProvider';
 import * as Yup from 'yup';
 import { useStyles } from './useStyles';
+import { useSnackbar } from 'notistack';
 
 export const ItemForm = ({
   id,
@@ -21,6 +22,7 @@ export const ItemForm = ({
   const { apis } = useAppState();
   const [oldItem, setOldItem] = useState(null);
   const [message, setMessage] = useState('');
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const initialValues = {
     name: '',
@@ -45,13 +47,16 @@ export const ItemForm = ({
 
     try {
       const { data } = await Axios(options);
+
       console.log(isEdit ? 'updated' : 'added', data);
       if (isEdit) {
         refresh();
+        enqueueSnackbar('Item updated!');
         onCancel();
       }
       toggleLoading();
       if (!isEdit) {
+        enqueueSnackbar('Item added!');
         history.push('/item/table');
       }
     } catch (e) {
