@@ -4,7 +4,9 @@ export const useStyles = makeStyles((theme) => ({
   background: {
     minHeight: '100vh',
     backgroundColor: theme.palette.primary.main,
-    backgroundImage: `url(${process.env.PUBLIC_URL + '/static/bg.svg'})`,
+    backgroundImage: `url(${
+      process.env.PUBLIC_URL + '/static/bg2.svg'
+    })`,
   },
   content: {
     alignItems: 'center',
