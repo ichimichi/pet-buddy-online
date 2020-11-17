@@ -2,6 +2,7 @@ import {
   Box,
   Divider,
   Drawer,
+  IconButton,
   List,
   ListItem,
   ListItemIcon,
@@ -11,16 +12,11 @@ import {
   useMediaQuery,
 } from '@material-ui/core';
 import React from 'react';
-import {
-  AddBox as AddBoxIcon,
-  Home as HomeIcon,
-  AmpStories as AmpStoriesIcon,
-  ViewList as ViewListIcon,
-  AccountBox as AccountBoxIcon,
-} from '@material-ui/icons';
 import { withRouter } from 'react-router-dom';
 import { useStyles } from './useStyles';
 import clsx from 'clsx';
+import { navigations } from './navigations';
+import { Cancel as CancelIcon } from '@material-ui/icons';
 
 const SideBar = ({ opened, toggleDrawer, history, window }) => {
   const classes = useStyles();
@@ -28,32 +24,8 @@ const SideBar = ({ opened, toggleDrawer, history, window }) => {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
-  const routes = [
-    { path: '/', icon: <HomeIcon />, name: 'Home' },
-    {
-      path: '/item/add',
-      icon: <AddBoxIcon />,
-      name: 'Item Registration',
-    },
-    {
-      path: '/item/list',
-      icon: <AmpStoriesIcon />,
-      name: 'Item List',
-    },
-    {
-      path: '/item/table',
-      icon: <ViewListIcon />,
-      name: 'Item Table',
-    },
-    {
-      path: '/user/profile',
-      icon: <AccountBoxIcon />,
-      name: 'Profile',
-    },
-  ];
-
-  const getRoutes = (routes) => {
-    return routes.map((route, index) => {
+  const getNavigation = (routes) => {
+    return routes.map((navigation, index) => {
       return (
         <ListItem
           button
@@ -61,14 +33,14 @@ const SideBar = ({ opened, toggleDrawer, history, window }) => {
             if (isXS) {
               toggleDrawer();
             }
-            history.push(route.path);
+            history.push(navigation.path);
           }}
           key={index}
         >
-          <Tooltip title={route.name} placement="right">
-            <ListItemIcon>{route.icon}</ListItemIcon>
+          <Tooltip title={navigation.name} placement="right">
+            <ListItemIcon>{navigation.icon}</ListItemIcon>
           </Tooltip>
-          <ListItemText primary={route.name} />
+          <ListItemText primary={navigation.name} />
         </ListItem>
       );
     });
@@ -88,13 +60,19 @@ const SideBar = ({ opened, toggleDrawer, history, window }) => {
           }}
         >
           <List>
-            <ListItem>
+            <ListItem className={classes.root}>
               <Box my={2}>
-                <Typography variant="h4">Pet Buddy Online</Typography>
+                <Typography variant="h4" noWrap>
+                  Pet Buddy Online
+                </Typography>
               </Box>
+              <div className={classes.grow} />
+              <IconButton onClick={toggleDrawer}>
+                <CancelIcon />
+              </IconButton>
             </ListItem>
             <Divider />
-            {getRoutes(routes)}
+            {getNavigation(navigations)}
           </List>
         </Drawer>
       ) : (
@@ -112,7 +90,7 @@ const SideBar = ({ opened, toggleDrawer, history, window }) => {
           }}
         >
           <div className={classes.toolbar} />
-          <List>{getRoutes(routes)}</List>
+          <List>{getNavigation(navigations)}</List>
         </Drawer>
       )}
     </nav>
